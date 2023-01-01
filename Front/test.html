@@ -74,19 +74,43 @@
                                 <th colspan="3">sum_measured_angles</th>
                             </thead>
                             <tbody>
-                                <td><input></td>
-                                <td><input></td>
-                                <td><input></td>
+                                <td><input id="sum_measured_angles_deg"></td>
+                                <td><input id="sum_measured_angles_min"></td>
+                                <td><input id="sum_measured_angles_sec"></td>
                             </tbody>
                         </table>
+                        <table>
+                            <thead>
+                                <th colspan="3">sum_correct_angles</th>
+                            </thead>
+                            <tbody>
+                                <td><input id="sum_correct_angles_deg"></td>
+                                <td><input id="sum_correct_angles_min"></td>
+                                <td><input id="sum_correct_angles_sec"></td>
+                            </tbody>
+                        </table>                        
+                    </div>                    
+                    <div class="other_values_table">
                         <table>
                             <thead>
                                 <th colspan="3">theoretical_sum_of_angles</th>
                             </thead>
                             <tbody>
-                                <td><input></td>
-                                <td><input></td>
-                                <td><input></td>
+                                <td><input id="theoretical_sum_of_angles_deg"></td>
+                                <td><input id="theoretical_sum_of_angles_min"></td>
+                                <td><input id="theoretical_sum_of_angles_sec"></td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="other_values_table">
+                        <table>
+                            <thead>
+                                <th colspan="3">permissible_difference</th>
+                            </thead>
+                            <tbody>
+                                <td><input id="permissible_difference_deg"></td>
+                                <td><input id="permissible_difference_min"></td>
+                                <td><input id="permissible_difference_sec"></td>
                             </tbody>
                         </table>
                     </div>
@@ -96,34 +120,12 @@
                                 <th colspan="3">difference</th>
                             </thead>
                             <tbody>
-                                <td><input></td>
-                                <td><input></td>
-                                <td><input></td>
+                                <td><input id="difference_deg"></td>
+                                <td><input id="difference_min"></td>
+                                <td><input id="difference_sec"></td>
                             </tbody>
                         </table>
-                        <table>
-                            <thead>
-                                <th colspan="3">permissible_difference</th>
-                            </thead>
-                            <tbody>
-                                <td><input></td>
-                                <td><input></td>
-                                <td><input></td>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="other_values_table">
-                        <table>
-                            <thead>
-                                <th colspan="3">sum_correct_angles</th>
-                            </thead>
-                            <tbody>
-                                <td><input></td>
-                                <td><input></td>
-                                <td><input></td>
-                            </tbody>
-                        </table>
-                    </div>
+                    </div>                    
                 </div>
 
 
@@ -158,6 +160,7 @@
 
 
         <button class="green" onclick="submit()">Собрать циферки</button>
+        <button class="green" onclick="TestData()">Тестовые данные</button>
         <!-- <div style="margin: 100px; display: block; width: 500px; height: 300px;">
         <button onclick="click123()">Я Кнопка</button>
         <button onclick="click321()">Я новая Кнопка1</button>

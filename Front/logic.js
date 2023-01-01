@@ -283,6 +283,26 @@ function submit() {
         .then(res => res.json())
         .then(item => {
             console.log(item)
+            if (item) {
+                if (item.angles && item.angles.length > 0) {
+                    FillMainData(item.angles);
+                }
+                if (item.difference) {
+                    FillOtherData("difference", item.difference);
+                }
+                if (item.permissible_difference) {
+                    FillOtherData("permissible_difference", item.permissible_difference);
+                }
+                if (item.sum_correct_angles) {
+                    FillOtherData("sum_correct_angles", item.sum_correct_angles);
+                }
+                if (item.sum_measured_angles) {
+                    FillOtherData("sum_measured_angles", item.sum_measured_angles);
+                }
+                if (item.theoretical_sum_of_angles) {
+                    FillOtherData("theoretical_sum_of_angles", item.theoretical_sum_of_angles);
+                }
+            }
         }
         )
         .catch((ex) => {
@@ -298,4 +318,67 @@ function submit() {
             otherValues.style.display = "block";
         });
 
+}
+
+
+function FillMainData(angles) {
+    if (angles && angles.length > 0) {
+        for (let i = 1; i < angles.length + 1; i++) {
+            let Deg = document.getElementById("DegRead" + i);
+            let Min = document.getElementById("MinRead" + i);
+            let Sec = document.getElementById("SecRead" + i);
+            Deg.value = angles[i - 1].CorDeg;
+            Min.value = angles[i - 1].CorMin;
+            Sec.value = angles[i - 1].CorSec;
+        }
+    }
+}
+
+function FillOtherData(key, item) {
+    let Deg = document.getElementById(key + "_deg");
+    let Min = document.getElementById(key + "_min");
+    let Sec = document.getElementById(key + "_sec");
+    Deg.value = item.Deg;
+    Min.value = item.Min;
+    Sec.value = item.Sec;
+}
+
+
+
+
+function TestData() {
+    fetch('http://127.0.0.1:8000/TestData')
+        .then(res => res.json())
+        .then(item => {
+            if (item && item.length > 0) {
+                let tbody = document.getElementById("tbody_container");
+                tbody.innerHTML = "";
+                let header_container = document.getElementById("header_container");
+                header_container.style.display = "none";
+                for (let i = 0; i < item.length; i++) {
+                    header_container.style.display = "table";
+                    AddRow();
+                }
+                FillTestData(item);
+                console.log(item);
+            }
+        }
+        ).catch((ex) => {
+            console.log(ex.message)
+        });
+}
+
+function FillTestData(items) {
+    if (items && items.length > 0) {
+        for (let i = 1; i < items.length + 1; i++) {
+            let Deg = document.getElementById("Deg" + i);
+            let Min = document.getElementById("Min" + i);
+            let Sec = document.getElementById("Sec" + i);
+            let Distan = document.getElementById("Distan" + i);
+            Deg.value = items[i - 1].Deg;
+            Min.value = items[i - 1].Min;
+            Sec.value = items[i - 1].Sec;
+            Distan.value = items[i - 1].HorDist;
+        }
+    }
 }
