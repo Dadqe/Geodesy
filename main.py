@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Query
 from schemas import Point, Points, Data
-from calc import get_correct_angles
+from calc import get_correct_angles, send_test_data
+import uvicorn
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -58,6 +59,15 @@ def get_cor_angs(item: Points):
     return item
 
 
+@app.get('/TestData')
+def get_adj_angs():
+    '''
+    Отослать тестовые данные (Измеренные углы + расстояния)
+    '''
+    
+    return send_test_data()
+
+
 @app.post('/Test1')
 def send_cor_angs(item: Points):
     '''
@@ -79,12 +89,12 @@ def send(item: Points):
     '''
     
     data = item.dict()
-    # data1 = data.get('aPoints')
-    # print(type(data1))
-    # print(data1)
     
     # return item
-    return get_correct_angles(data.get('aPoints'))
+    return get_correct_angles(data.get('aPoints'))  # type: ignore
+
+# if __name__ == "__main__":
+#     uvicorn.run(app)
 
 
 # uvicorn main:app --reload

@@ -1,4 +1,6 @@
 from math import sqrt
+import json
+
 
 def calc_sum_of_measured_angles(angles: tuple) -> float:
     '''
@@ -69,6 +71,13 @@ def create_dict_out_dms(dms: tuple[int, int, int]) -> dict:
     d, m, s = dms
     return {"Deg": d, "Min": m, "Sec": s}
 
+def send_test_data():
+    '''Отослать тестовые данные (Измеренные углы + расстояния)'''
+    
+    with open("DataInput.json", "r", encoding="utf-8") as f:
+        data_inp = json.loads(f.read())
+
+    return(data_inp)
 
 def get_correct_angles(measured_angles: list[dict[str, int | float]]) -> dict[str, list | dict]:    # list[dict]
     ''' Вернуть массив словариков с исправленными углами. Это уже на фронт прокинуть можно
