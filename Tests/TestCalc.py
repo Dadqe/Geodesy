@@ -145,94 +145,95 @@ assert calc_permissible_discrepancy(len(test_site2)) == 0.062361, "Неверн�
 # print(get_dms_angle(sum_of_angles))
 # print(list_of_decimal_angles)
 
-# TT = [
-#     {
-#         "Deg": 107,
-#         "Min": 17,
-#         "Sec": 30,
-#         "HorDist": 33.55
-#     },
-#     {
-#         "Deg": 182,
-#         "Min": 59,
-#         "Sec": 30,
-#         "HorDist": 42.35
-#     },
-#     {
-#         "Deg": 205,
-#         "Min": 0,
-#         "Sec": 0,
-#         "HorDist": 41.95
-#     },
-#     {
-#         "Deg": 109,
-#         "Min": 25,
-#         "Sec": 0,
-#         "HorDist": 59.4
-#     },
-#     {
-#         "Deg": 172,
-#         "Min": 43,
-#         "Sec": 0,
-#         "HorDist": 66.61
-#     },
-#     {
-#         "Deg": 193,
-#         "Min": 4,
-#         "Sec": 30,
-#         "HorDist": 90.6
-#     },
-#     {
-#         "Deg": 150,
-#         "Min": 6,
-#         "Sec": 0,
-#         "HorDist": 50.81
-#     },
-#     {
-#         "Deg": 214,
-#         "Min": 47,
-#         "Sec": 30,
-#         "HorDist": 78
-#     },
-#     {
-#         "Deg": 109,
-#         "Min": 39,
-#         "Sec": 30,
-#         "HorDist": 52.93
-#     },
-#     {
-#         "Deg": 128,
-#         "Min": 25,
-#         "Sec": 30,
-#         "HorDist": 52.4
-#     },
-#     {
-#         "Deg": 208,
-#         "Min": 3,
-#         "Sec": 0,
-#         "HorDist": 49.38
-#     },
-#     {
-#         "Deg": 119,
-#         "Min": 16,
-#         "Sec": 30,
-#         "HorDist": 46.32
-#     },
-#     {
-#         "Deg": 139,
-#         "Min": 59,
-#         "Sec": 30,
-#         "HorDist": 294.69
-#     },
-#     {
-#         "Deg": 119,
-#         "Min": 9,
-#         "Sec": 30,
-#         "HorDist": 56.8
-#     }
-# ]
+TT = [
+    {
+        "Deg": 107,
+        "Min": 17,
+        "Sec": 30,
+        "HorDist": 33.55
+    },
+    {
+        "Deg": 182,
+        "Min": 59,
+        "Sec": 30,
+        "HorDist": 42.35
+    },
+    {
+        "Deg": 205,
+        "Min": 0,
+        "Sec": 0,
+        "HorDist": 41.95
+    },
+    {
+        "Deg": 109,
+        "Min": 25,
+        "Sec": 0,
+        "HorDist": 59.4
+    },
+    {
+        "Deg": 172,
+        "Min": 43,
+        "Sec": 0,
+        "HorDist": 66.61
+    },
+    {
+        "Deg": 193,
+        "Min": 4,
+        "Sec": 30,
+        "HorDist": 90.6
+    },
+    {
+        "Deg": 150,
+        "Min": 6,
+        "Sec": 0,
+        "HorDist": 50.81
+    },
+    {
+        "Deg": 214,
+        "Min": 47,
+        "Sec": 30,
+        "HorDist": 78
+    },
+    {
+        "Deg": 109,
+        "Min": 39,
+        "Sec": 30,
+        "HorDist": 52.93
+    },
+    {
+        "Deg": 128,
+        "Min": 25,
+        "Sec": 30,
+        "HorDist": 52.4
+    },
+    {
+        "Deg": 208,
+        "Min": 3,
+        "Sec": 0,
+        "HorDist": 49.38
+    },
+    {
+        "Deg": 119,
+        "Min": 16,
+        "Sec": 30,
+        "HorDist": 46.32
+    },
+    {
+        "Deg": 139,
+        "Min": 59,
+        "Sec": 30,
+        "HorDist": 294.69
+    },
+    {
+        "Deg": 119,
+        "Min": 9,
+        "Sec": 30,
+        "HorDist": 56.8
+    }
+]
 
-# TT_O = get_correct_angles(TT)
+TT_O = get_correct_angles(TT)
+print(TT_O)
 # angles = TT_O.get("angles")
 # list_of_angles = [(d.get('CorDeg'), d.get('CorMin'), d.get('CorSec')) for d in angles]
 # sum_of_angles = calc_sum_of_measured_angles(list_of_angles)
@@ -248,9 +249,10 @@ assert calc_permissible_discrepancy(len(test_site2)) == 0.062361, "Неверн�
 # print(get_dms_angle(calc_sum_of_measured_angles(dms_out)))
 
 
-t = [107.295833, 182.995833, 205.004167, 109.420833, 172.720833, 193.079167, 150.104167, 214.795833, 109.6625, 128.429167, 208.054167, 119.279167, 139.995833, 119.1625]
+# t = [107.295833, 182.995833, 205.004167, 109.420833, 172.720833, 193.079167, 150.104167, 214.795833, 109.6625, 128.429167, 208.054167, 119.279167, 139.995833, 119.1625]
 
-summa_t = 0
-for el in t:
-    summa_t += el
-print(summa_t)
+# summa_t = 0
+# for el in t:
+#     summa_t += el
+# summa_t = round(summa_t, 6)
+# print(get_dms_angle(summa_t))
