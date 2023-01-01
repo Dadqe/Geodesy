@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="logic.js"></script>
+</head>
+
+<body>
+    <div>top</div>
+    <div class="main_container">
+        <button onclick="CreateTable()">Сколько сделать инпутов</button>
+        <button onclick="MoreRow()">Добавить ещё</button>
+        <label id="label">2</label>
+        <input id="input" type="range" min=2 max=20 value=2 step=1 oninput="change()" onchange="change()">
+        <div id="container" class="table_container">
+            <div id="header_container" class="header_container">
+                <table id="table_container">
+                    <thead>
+                        <tr>
+                            <th>Номер</th>
+                            <th>Градус</th>
+                            <th>Минута</th>
+                            <th>Секунда</th>
+                            <th>Градус</th>
+                            <th>Минута</th>
+                            <th>Секунда</th>
+                            <th>Расстояние</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th colspan="3">Измеренные углы</th>
+                            <th colspan="3">Исправленные углы</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody_container">
+                        <!-- <tr>
+                        <td><label id="l1">1</label></td>
+                        <td><input id="i1"></td>
+                        <td><input id="i2"></td>
+                        <td><input id="i3"></td>
+                        <td><input id="i4" disabled></td>
+                        <td><input id="i5" disabled></td>
+                        <td><input id="i6" disabled></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><input id="i72"></td>
+                    </tr>
+                    <tr>
+                        <td><label id="l12">2</label></td>
+                        <td><input id="i12"></td>
+                        <td><input id="i22"></td>
+                        <td><input id="i32"></td>
+                        <td><input id="i42" disabled></td>
+                        <td><input id="i52" disabled></td>
+                        <td><input id="i62" disabled></td>
+                        <td></td>
+                    </tr> -->
+                    </tbody>
+                </table>
+                <div id="other_values" class="other_values">
+                    <div class="other_values_table">
+                        <table>
+                            <thead>
+                                <th colspan="3">sum_measured_angles</th>
+                            </thead>
+                            <tbody>
+                                <td><input></td>
+                                <td><input></td>
+                                <td><input></td>
+                            </tbody>
+                        </table>
+                        <table>
+                            <thead>
+                                <th colspan="3">theoretical_sum_of_angles</th>
+                            </thead>
+                            <tbody>
+                                <td><input></td>
+                                <td><input></td>
+                                <td><input></td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="other_values_table">
+                        <table>
+                            <thead>
+                                <th colspan="3">difference</th>
+                            </thead>
+                            <tbody>
+                                <td><input></td>
+                                <td><input></td>
+                                <td><input></td>
+                            </tbody>
+                        </table>
+                        <table>
+                            <thead>
+                                <th colspan="3">permissible_difference</th>
+                            </thead>
+                            <tbody>
+                                <td><input></td>
+                                <td><input></td>
+                                <td><input></td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="other_values_table">
+                        <table>
+                            <thead>
+                                <th colspan="3">sum_correct_angles</th>
+                            </thead>
+                            <tbody>
+                                <td><input></td>
+                                <td><input></td>
+                                <td><input></td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+
+
+                <div id="loader" style="align-items: center;
+                display: flex;
+                height: 110%;
+                width: 100%;
+                position: absolute;
+                top: 0;
+                background: rgba(255,255,255,.8);
+                justify-content: center;
+                display: none;">
+                    <div id="test" style="border: 1px rgb(75, 69, 69) solid; width: 20px; height: 20px; ">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div
+            style="width:30px; text-align: center; align-items: center; align-self: center; margin: 25% 50%; display: none;">
+            <div id="test" style="border: 1px rgb(75, 69, 69) solid; width: 20px; height: 20px; ">
+            </div>
+        </div>
+
+
+        <button class="green" onclick="submit()">Собрать циферки</button>
+        <!-- <div style="margin: 100px; display: block; width: 500px; height: 300px;">
+        <button onclick="click123()">Я Кнопка</button>
+        <button onclick="click321()">Я новая Кнопка1</button>
+        <div id="test_con"></div>
+    </div> -->
+    </div>
+    <footer>bottom</footer>
+</body>
+
+</html>
