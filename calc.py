@@ -7,7 +7,7 @@ def calc_sum_of_measured_angles(angles: tuple) -> float:
     просуммировать и, вероятнее всего, разложить на гр/мин/сек
     '''
     
-    return sum([get_decimal_angle(angle) for angle in angles])
+    return round(sum([get_decimal_angle(angle) for angle in angles]), 6)
 
 
 def get_decimal_angle(angle: tuple[int, int, int]) -> float:
