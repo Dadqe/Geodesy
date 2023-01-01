@@ -4,7 +4,7 @@ import json
 
 # Добавляю в поиск путей корневую директорию всех файлов
 sys.path.insert(1, os.getcwd())
-from calc import get_decimal_angle, calc_sum_of_measured_angles, get_dms_angle, calc_sum_of_theoretical_angles, calc_difference_ang, calc_permissible_discrepancy, get_correct_angles
+from calc import get_decimal_angle, calc_sum_of_measured_angles, get_dms_angle, calc_sum_of_theoretical_angles, calc_difference_ang, calc_permissible_discrepancy, get_correct_angles, send_test_data
 
 
 ang1 = (180, 50, 35)
@@ -232,8 +232,9 @@ TT = [
     }
 ]
 
-TT_O = get_correct_angles(TT)
-print(TT_O)
+# Проверка работоспособности основной функции возвращения исправленных углов
+# TT_O = get_correct_angles(TT)
+# print(TT_O)
 # angles = TT_O.get("angles")
 # list_of_angles = [(d.get('CorDeg'), d.get('CorMin'), d.get('CorSec')) for d in angles]
 # sum_of_angles = calc_sum_of_measured_angles(list_of_angles)
@@ -256,3 +257,6 @@ print(TT_O)
 #     summa_t += el
 # summa_t = round(summa_t, 6)
 # print(get_dms_angle(summa_t))
+
+# Проверка тестовых данных
+# send_test_data()
