@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Query
 from schemas import Point, Points, Data
 from calc import get_correct_angles
+import uvicorn
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -85,6 +86,10 @@ def send(item: Points):
     
     # return item
     return get_correct_angles(data.get('aPoints'))
+
+
+if __name__ == "__main__":
+    uvicorn.run(app)
 
 
 # uvicorn main:app --reload
