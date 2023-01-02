@@ -25,12 +25,16 @@
                             <th>Градус</th>
                             <th>Минута</th>
                             <th>Секунда</th>
+                            <th>Градус</th>
+                            <th>Минута</th>
+                            <th>Секунда</th>
                             <th>Расстояние</th>
                         </tr>
                         <tr>
                             <th></th>
                             <th colspan="3">Измеренные углы</th>
                             <th colspan="3">Исправленные углы</th>
+                            <th colspan="3">Дирекционные углы</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -67,6 +71,47 @@
                     </tr> -->
                     </tbody>
                 </table>
+                <div id="bearing_angle">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>Градус</th>
+                                <th>Минута</th>
+                                <th>Секунда</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th colspan="3"></th>
+                                <th colspan="3"></th>
+                                <th colspan="3">Дирекционные углы</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="width: 61.5px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"><input id="bearing_angle_deg" value="0"></td>
+                                <td style="width: 88px;"><input id="bearing_angle_min" value="0"></td>
+                                <td style="width: 88px;"><input id="bearing_angle_sec" value="0"></td>
+                                <td style="width: 88px;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div id="other_values" class="other_values">
                     <div class="other_values_table">
                         <table>
@@ -88,8 +133,8 @@
                                 <td><input id="sum_correct_angles_min"></td>
                                 <td><input id="sum_correct_angles_sec"></td>
                             </tbody>
-                        </table>                        
-                    </div>                    
+                        </table>
+                    </div>
                     <div class="other_values_table">
                         <table>
                             <thead>
@@ -125,7 +170,7 @@
                                 <td><input id="difference_sec"></td>
                             </tbody>
                         </table>
-                    </div>                    
+                    </div>
                 </div>
 
 
