@@ -108,3 +108,6 @@ button.green:hover {
     border-radius: 5px;
     padding: 3px;
 }
+table input{
+    text-align: -webkit-center;
+}

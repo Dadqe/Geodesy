@@ -4,6 +4,11 @@ class Points {
     Sec = null;
     HorDist = null;
 }
+class BearingAngle {
+    Deg = null;
+    Min = null;
+    Sec = null;
+}
 var aPoints = [];
 function CreateTable() {
     let input = document.getElementById("input");
@@ -15,6 +20,7 @@ function CreateTable() {
     header_container.style.display = "none";
     //container.innerHTML = "";
     if (input.value != "0" && input.value != 0) {
+        //AddBearingAngleRow();
         for (let i = 0; i < input.value; i++) {
             // let newInput = document.createElement("input");
             // newInput.id = "newinput" + i;
@@ -175,6 +181,62 @@ function CreateHeader() {
     let tbody = document.createElement("tbody");
 }
 
+function AddBearingAngleRow() {
+    let tbody = document.getElementById("tbody_container");
+    let tr = document.createElement("tr");
+    tr.id = "row_BearingAngle";
+    let td1 = document.createElement("td");
+    let label = document.createElement("label");
+    label.id = "l";
+    label.innerHTML = "dir";
+    td1.appendChild(label);
+    let td2 = document.createElement("td");
+    let inputDeg = document.createElement("input");
+    inputDeg.id = "Deg";
+    inputDeg.value = 0;
+    //td2.appendChild(inputDeg);
+    let td3 = document.createElement("td");
+    let inputMin = document.createElement("input");
+    inputMin.id = "Min";
+    inputMin.value = 0;
+    //td3.appendChild(inputMin);
+    let td4 = document.createElement("td");
+    let inputSec = document.createElement("input");
+    inputSec.id = "Sec";
+    inputSec.value = 0;
+    //td4.appendChild(inputSec);
+    let td5 = document.createElement("td");
+    let inputDegRead = document.createElement("input");
+    inputDegRead.id = "DegRead";
+    inputDegRead.disabled = true;
+    td5.appendChild(inputDegRead);
+    let td6 = document.createElement("td");
+    let inputMinRead = document.createElement("input");
+    inputMinRead.id = "MinRead";
+    inputMinRead.disabled = true;
+    td6.appendChild(inputMinRead);
+    let td7 = document.createElement("td");
+    let inputSecRead = document.createElement("input");
+    inputSecRead.id = "SecRead";
+    inputSecRead.disabled = true;
+    td7.appendChild(inputSecRead);
+    let td8 = document.createElement("td");
+    let inputDistan = document.createElement("input");
+    inputDistan.id = "Distan";
+    inputDistan.value = 0;
+    inputDistan.classList.add("distant_input");
+    td8.appendChild(inputDistan);
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    tr.appendChild(td4);
+    tr.appendChild(td5);
+    tr.appendChild(td6);
+    tr.appendChild(td7);
+    tr.appendChild(td8);
+    tbody.appendChild(tr);
+}
+
 function AddRow() {
     let tbody = document.getElementById("tbody_container");
     let index = tbody.childElementCount + 1;
@@ -202,34 +264,53 @@ function AddRow() {
     inputSec.value = 0;
     td4.appendChild(inputSec);
     let td5 = document.createElement("td");
+    let inputDegReadDir = document.createElement("input");
+    inputDegReadDir.id = "DegDirRead" + index;
+    inputDegReadDir.disabled = true;
+    td5.appendChild(inputDegReadDir);
+    let td6 = document.createElement("td");
+    let inputMinReadDir = document.createElement("input");
+    inputMinReadDir.id = "MinDirRead" + index;
+    inputMinReadDir.disabled = true;
+    td6.appendChild(inputMinReadDir);
+    let td7 = document.createElement("td");
+    let inputSecReadDir = document.createElement("input");
+    inputSecReadDir.id = "SecDirRead" + index;
+    inputSecReadDir.disabled = true;
+    td7.appendChild(inputSecReadDir);
+    let td8 = document.createElement("td");
     let inputDegRead = document.createElement("input");
     inputDegRead.id = "DegRead" + index;
     inputDegRead.disabled = true;
-    td5.appendChild(inputDegRead);
-    let td6 = document.createElement("td");
+    td8.appendChild(inputDegRead);
+    let td9 = document.createElement("td");
     let inputMinRead = document.createElement("input");
     inputMinRead.id = "MinRead" + index;
     inputMinRead.disabled = true;
-    td6.appendChild(inputMinRead);
-    let td7 = document.createElement("td");
+    td9.appendChild(inputMinRead);
+    let td10 = document.createElement("td");
     let inputSecRead = document.createElement("input");
     inputSecRead.id = "SecRead" + index;
     inputSecRead.disabled = true;
-    td7.appendChild(inputSecRead);
-    let td8 = document.createElement("td");
+    td10.appendChild(inputSecRead);
+    let td11 = document.createElement("td");
     let inputDistan = document.createElement("input");
     inputDistan.id = "Distan" + index;
     inputDistan.value = 0;
     inputDistan.classList.add("distant_input");
-    td8.appendChild(inputDistan);
+    td11.appendChild(inputDistan);
     tr.appendChild(td1);
     tr.appendChild(td2);
     tr.appendChild(td3);
     tr.appendChild(td4);
+    tr.appendChild(td8);
+    tr.appendChild(td9);
+    tr.appendChild(td10);
     tr.appendChild(td5);
     tr.appendChild(td6);
     tr.appendChild(td7);
-    tr.appendChild(td8);
+    
+    tr.appendChild(td11);
     tbody.appendChild(tr);
 }
 
@@ -265,7 +346,16 @@ function submit() {
         // }
         aPoints.push(record);
     }
+    let bearingAngle = new BearingAngle();
+    let bearing_angle_deg=document.getElementById("bearing_angle_deg");
+    let bearing_angle_min=document.getElementById("bearing_angle_min");
+    let bearing_angle_sec=document.getElementById("bearing_angle_sec");
+    bearingAngle.Deg = bearing_angle_deg.value;
+    bearingAngle.Min = bearing_angle_min.value;
+    bearingAngle.Sec = bearing_angle_sec.value;
+    //aPoints.push(bearingAngle);
     console.log(aPoints);
+    console.log(bearingAngle);
 
     let loader = document.getElementById("loader");
     loader.style.display = "flex";
@@ -276,13 +366,34 @@ function submit() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'accept': '*/*' },
         body: JSON.stringify({
-            aPoints
+            aPoints,
+            bearingAngle
         })
 
     })
         .then(res => res.json())
         .then(item => {
             console.log(item)
+            if (item) {
+                if (item.angles && item.angles.length > 0) {
+                    FillMainData(item.angles);
+                }
+                if (item.difference) {
+                    FillOtherData("difference", item.difference);
+                }
+                if (item.permissible_difference) {
+                    FillOtherData("permissible_difference", item.permissible_difference);
+                }
+                if (item.sum_correct_angles) {
+                    FillOtherData("sum_correct_angles", item.sum_correct_angles);
+                }
+                if (item.sum_measured_angles) {
+                    FillOtherData("sum_measured_angles", item.sum_measured_angles);
+                }
+                if (item.theoretical_sum_of_angles) {
+                    FillOtherData("theoretical_sum_of_angles", item.theoretical_sum_of_angles);
+                }
+            }
         }
         )
         .catch((ex) => {
@@ -298,4 +409,67 @@ function submit() {
             otherValues.style.display = "block";
         });
 
+}
+
+
+function FillMainData(angles) {
+    if (angles && angles.length > 0) {
+        for (let i = 1; i < angles.length + 1; i++) {
+            let Deg = document.getElementById("DegRead" + i);
+            let Min = document.getElementById("MinRead" + i);
+            let Sec = document.getElementById("SecRead" + i);
+            Deg.value = angles[i - 1].CorDeg;
+            Min.value = angles[i - 1].CorMin;
+            Sec.value = angles[i - 1].CorSec;
+        }
+    }
+}
+
+function FillOtherData(key, item) {
+    let Deg = document.getElementById(key + "_deg");
+    let Min = document.getElementById(key + "_min");
+    let Sec = document.getElementById(key + "_sec");
+    Deg.value = item.Deg;
+    Min.value = item.Min;
+    Sec.value = item.Sec;
+}
+
+
+
+
+function TestData() {
+    fetch('http://127.0.0.1:8000/TestData')
+        .then(res => res.json())
+        .then(item => {
+            if (item && item.length > 0) {
+                let tbody = document.getElementById("tbody_container");
+                tbody.innerHTML = "";
+                let header_container = document.getElementById("header_container");
+                header_container.style.display = "none";
+                for (let i = 0; i < item.length; i++) {
+                    header_container.style.display = "table";
+                    AddRow();
+                }
+                FillTestData(item);
+                console.log(item);
+            }
+        }
+        ).catch((ex) => {
+            console.log(ex.message)
+        });
+}
+
+function FillTestData(items) {
+    if (items && items.length > 0) {
+        for (let i = 1; i < items.length + 1; i++) {
+            let Deg = document.getElementById("Deg" + i);
+            let Min = document.getElementById("Min" + i);
+            let Sec = document.getElementById("Sec" + i);
+            let Distan = document.getElementById("Distan" + i);
+            Deg.value = items[i - 1].Deg;
+            Min.value = items[i - 1].Min;
+            Sec.value = items[i - 1].Sec;
+            Distan.value = items[i - 1].HorDist;
+        }
+    }
 }
