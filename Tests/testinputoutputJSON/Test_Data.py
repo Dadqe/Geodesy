@@ -15,8 +15,4 @@ import json
 # out = json.dumps(data, ensure_ascii=False, indent=4)
 # print(type(out))
 # print(out)
-a = (2159, 56, 30)
-# o = {'sum_measured_angles': {{"Deg": } for i in range(len(a))}}
-print(d)
-print(m)
-print(s)
+

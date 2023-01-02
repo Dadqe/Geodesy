@@ -2,7 +2,7 @@ from math import sqrt
 import json
 
 
-def calc_sum_of_measured_angles(angles: tuple) -> float:
+def calc_sum_of_measured_angles(angles: list[tuple[int, int, int]]) -> float:
     '''
     Посчитает сумму углов
     Для этого надо сначала все углы перевести в десятичные градусы
@@ -11,6 +11,23 @@ def calc_sum_of_measured_angles(angles: tuple) -> float:
     
     return round(sum([get_decimal_angle(angle) for angle in angles]), 6)
 
+
+def calc_sum_of_corrected_angles(angles: list[float], theoretical) -> float:
+    '''
+    Посчитает сумму исправленных углов
+    Для этого надо сначала все углы перевести в десятичные градусы (они уже должны будут быть в таком виде, по идее. Только для вывода они переводятся в d/m/s)?
+    просуммировать. Обычно исправленная сумма должна быть равна числу теоретической суммы. Обычно там целое число. Если это не так, то надо при вычислении суммы использовать исправленные углы, не округлённые до 6 знаков.
+    Что б проверить, надо будет беревести в d/m/s, ну и для вышенаписанного условия надо бы передавать или использовать функцию для вычисления теоретическомй суммы и всё. Но лучше передавать, т.к. она уже вычислена будет в программе, по идее
+    '''
+    
+    summa = sum(angles)
+    allowable_error = get_decimal_angle((0, 0, 5))  # Допустимая погрешность, для Ваниной таблицы это 5". Исправленные углы в десятичном виде у него дают теоретическую сумму. Где-то я читал про то, что в углы не надо раскидывать меньше 0.1' т.е. 6", эту обработку потом можно будет попробовать накрутить. Но в общем, у него получились углы немного другие, когда он их переводил в d/m/s. Поэтому если сидеть их и складывать, то в них потеряется 5"
+    
+    if abs(summa - theoretical) < allowable_error:
+        return theoretical
+    else:
+        print("Полученная сумма исправленных углов не сходится с теорией больше чем на 5 секунд")
+        return summa     # type: ignore
 
 def get_decimal_angle(angle: tuple[int, int, int]) -> float:
     ''' из гр/мин/сек раскладываю в десятичный угол '''
@@ -28,10 +45,14 @@ def get_dms_angle(angle: float) -> tuple[int, int, int]:
     return (d, m, s)
 
 
-def calc_sum_of_theoretical_angles(n: int) -> float:
-    ''' Посчитать теоретическую сумму углов в полигоне. В зависимости от количества углов. '''
+def calc_sum_of_theoretical_angles(n: int, side: str = 'right') -> float:
+    '''Посчитать теоретическую сумму углов в полигоне. В зависимости от количества углов.
+    Если в полигоне измерялись внутренние углы "Правые по ходу движени", то формула:
+    180 * (n - 2), иначе 180 * (n + 2)'''
     
-    return 180 * (n - 2)
+    res = 180 * (n - 2) if side == 'right' else 180 * (n + 2)
+    
+    return res
 
 
 def calc_difference_ang(measured: float, should_be: float | int) -> float:
@@ -65,19 +86,19 @@ def calc_correct_angle(angle: float, amendment: float) -> float:
     
     return round(angle + amendment, 6)
 
+
 def create_dict_out_dms(dms: tuple[int, int, int]) -> dict:
     ''' Из кортежа (d, m, s) получить словарь вида {"Deg": d, "Min": m, "Sec": s} '''
     
     d, m, s = dms
     return {"Deg": d, "Min": m, "Sec": s}
 
-def send_test_data():
-    '''Отослать тестовые данные (Измеренные углы + расстояния)'''
-    
-    with open("DataInput.json", "r", encoding="utf-8") as f:
-        data_inp = json.loads(f.read())
 
-    return(data_inp)
+def calc_sum_of_distance(list_dist: list[float]):
+    '''Посчитать периметр хода. Не включаеся дистанция из последней точки. Т.к. там не должно быть расстояния. Либо если есть, то это между двумя исходными пунктами расстояние.'''
+    
+    return round(sum(list_dist), 3)
+
 
 def get_correct_angles(measured_angles: list[dict[str, int | float]]) -> dict[str, list | dict]:    # list[dict]
     ''' Вернуть массив словариков с исправленными углами. Это уже на фронт прокинуть можно
@@ -90,6 +111,7 @@ def get_correct_angles(measured_angles: list[dict[str, int | float]]) -> dict[st
     Верну словарь JSON в котором есть ключи: углы, сумма измеренных углов, теоретическая сумма углов, невязка, теоретическая невязка, сумма исправленных углов'''
     
     list_of_angles = [(d.get('Deg'), d.get('Min'), d.get('Sec')) for d in measured_angles]  # d/m/s
+    print(list_of_angles)
     list_of_decimal_angles = [get_decimal_angle(a) for a in list_of_angles]
     sum_of_angles = calc_sum_of_measured_angles(list_of_angles) # type: ignore
     # sum_of_angles_dms = get_dms_angle(sum_of_angles)
@@ -101,6 +123,8 @@ def get_correct_angles(measured_angles: list[dict[str, int | float]]) -> dict[st
     correct_angles = [get_dms_angle(angle) for angle in correct_angles] # d/m/s
     sum_correct_angles = calc_sum_of_measured_angles(correct_angles)    # получается вот так...(2159, 59, 60) Возможно надо будет обработку этого дела внутрь функции какой-нибудь запихнуть, что б такого не было. До этого зачем-то к int приводил, поэтому терял десятичную часть, которая была важна, т.к. сумма всех углов, почему-то, получается с таким округлением -_- 2159.9999999999995
     correct_angles = [{"CorDeg": a[0], "CorMin": a[1], "CorSec": a[2]} for a in correct_angles] # [{d/m/s}, ...]
+    list_dist = [d.get('HorDist') for d in measured_angles[:-1]]
+    perimeter = calc_sum_of_distance(list_dist)
     
     # data_out = {"angles": correct_angles, "sum_measured_angles": sum_of_angles, "theoretical_sum_of_angles": theoretical_sum_of_angles, "difference": difference, "permissible_difference": permissible_difference, "sum_correct_angles": sum_correct_angles}
     
@@ -113,7 +137,63 @@ def get_correct_angles(measured_angles: list[dict[str, int | float]]) -> dict[st
         "sum_correct_angles": create_dict_out_dms(get_dms_angle(sum_correct_angles))
         }
     
+    # return perimeter
     return data_out
+
+
+def get_correct_angles1(measured_angles: list[dict[str, int | float]]) -> dict[str, list | dict]:    # list[dict]
+    '''Просчитывать корректные углы, если по теодолитному ходу измеряли левые углы по ходу движения....'''
+    
+    list_of_angles = [(d.get('Deg'), d.get('Min'), d.get('Sec')) for d in measured_angles]  # d/m/s
+    list_of_decimal_angles = [get_decimal_angle(a) for a in list_of_angles]
+    sum_of_angles = calc_sum_of_measured_angles(list_of_angles) # type: ignore
+    # sum_of_angles_dms = get_dms_angle(sum_of_angles)
+    theoretical_sum_of_angles = calc_sum_of_theoretical_angles(len(list_of_angles), 'left')
+    difference = calc_difference_ang(sum_of_angles, theoretical_sum_of_angles)  # Разница между теорией и пратикой
+    amendments = calc_amendments(difference, len(list_of_angles)) # Поправка в каждый угол поделённая поровну между всеми углами.
+    permissible_difference = calc_permissible_discrepancy(len(list_of_angles))  # Допустимая невязка
+    correct_angles = [calc_correct_angle(angle, amendments) for angle in list_of_decimal_angles]    # decimal
+    
+    sum_cor = calc_sum_of_corrected_angles(correct_angles, theoretical_sum_of_angles)   # Сумма исправленных углов. Если оне не сходится с теорией меньше чем на 5", то для вывода инфы передастся теория
+    
+    correct_angles = [get_dms_angle(angle) for angle in correct_angles] # d/m/s
+    # sum_correct_angles = calc_sum_of_measured_angles(correct_angles)    # получается вот так...(2159, 59, 60) Возможно надо будет обработку этого дела внутрь функции какой-нибудь запихнуть, что б такого не было
+    correct_angles = [{"CorDeg": a[0], "CorMin": a[1], "CorSec": a[2]} for a in correct_angles] # [{d/m/s}, ...]
+    list_dist = [d.get('HorDist') for d in measured_angles[:-1]]
+    perimeter = calc_sum_of_distance(list_dist)
+    
+    # data_out = {"angles": correct_angles, "sum_measured_angles": sum_of_angles, "theoretical_sum_of_angles": theoretical_sum_of_angles, "difference": difference, "permissible_difference": permissible_difference, "sum_correct_angles": sum_correct_angles}
+    
+    data_out = {
+        "angles": correct_angles, 
+        "sum_measured_angles": create_dict_out_dms(get_dms_angle(sum_of_angles)), 
+        "theoretical_sum_of_angles": create_dict_out_dms(get_dms_angle(theoretical_sum_of_angles)), 
+        "difference": create_dict_out_dms(get_dms_angle(difference)), 
+        "permissible_difference": create_dict_out_dms(get_dms_angle(permissible_difference)), 
+        "sum_correct_angles": create_dict_out_dms(get_dms_angle(sum_cor)),
+        "perimetr": perimeter
+        }
+    
+    # return sum_cor, sum_correct_angles
+    return data_out
+
+
+# def send_test_data():
+#     '''Отослать тестовые данные (Измеренные углы + расстояния)'''
+    
+#     with open("DataInput.json", "r", encoding="utf-8") as f:
+#         data_inp = json.loads(f.read())
+
+#     return(data_inp)
+
+
+def send_test_data1(path: str):
+    '''Отослать тестовые данные (Измеренные углы + расстояния)'''
+    
+    with open(path, "r", encoding="utf-8") as f:
+        data_inp = json.loads(f.read())
+
+    return(data_inp)
 
 # print(get_sum_of_measured_angles.__doc__)
 # print(get_decimal_ange.__doc__)

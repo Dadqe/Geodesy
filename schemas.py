@@ -5,11 +5,19 @@ class Point(BaseModel):
     Deg: int = 0
     Min: int = 0
     Sec: int = 0
-    HorDist: float # | int
+    HorDist: float = 0# | int
+
+
+class BearingAngle(BaseModel):
+    Deg: int = 0
+    Min: int = 0
+    Sec: int = 0
 
 
 class Points(BaseModel):
-    aPoints: list[Point]
+    aPoints: list[Point] = []
+    bearingAngle: BearingAngle
+    
 
 
 class Data(BaseModel):

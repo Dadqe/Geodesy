@@ -4,7 +4,14 @@
         "Deg": 150,
         "Min": 55,
         "Sec": 10,
-        "HorDist": 100
+        "HorDist": 100,
+        "Bearing_angle": 180,
+        "Delta_X_computed": 180,
+        "Delta_Y_computed": 180,
+        "Delta_X_corrected": 180,
+        "Delta_Y_corrected": 180,
+        "X": 180,
+        "Y": 180
     },
     {
         "Name": "t2",

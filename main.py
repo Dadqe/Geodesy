@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query
 from schemas import Point, Points, Data
-from calc import get_correct_angles, send_test_data
+from calc import get_correct_angles, send_test_data1
 import uvicorn
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,67 +23,24 @@ app.add_middleware(
 def home():
     return {"key": "Hello FastAPI"}
 
-
-@app.post('/CorAng')
-def get_cor_ang(item: Point):
-    ''' Вернуть исправленные углы
-    Для этого надо сначала посчитать теорию, потом практику, невязку и раскидать невязку. 
-    Возможно через генератор раскидывать потому как надо будет целочисленным делением это делать
-    и остатки кидать в конце'''
-    
-    # print(f"Type of response body:\n{type(item)}")
-    
-    d = item.dict()
-    # print(type(d))
-    # print(d)
-    # Name, HorDist = d.get("Name"), d.get("HorDist")
-    # print(type(Name), Name, '\n', type(HorDist), HorDist)
-    # print(type(d['Deg']))
-    
-    # return d        # Я могу даже просто словарик возвращать О_о
-    return item     # Чисто проверить, возвращается ли то, что передали. Для тестов данные уже есть в dict of json.py
-
-
-@app.post('/CorAngs')
-def get_cor_angs(item: Points):
+@app.get('/TestData/{id}')
+def get_adj_test(id: int):
     '''
-    Вернуть список написанных углов + горизонтальное проложение
+    Отослать тестовые данные вторые из Ваниной таблицы
     '''
     
-    print(f"Type of response body:\n{type(item)}")
-    
-    d = item.dict()
-    print(type(d))
-    print(d)
-    
-    return item
+    if id == 1:
+        # Данные с практики первого курса
+        return send_test_data1("DataInput.json")
+    elif id == 2:
+        # Данные от Вани из первой таблицы.
+        return send_test_data1("Tests/DataInput1.json")
+    else:
+        return False
 
 
-@app.get('/TestData')
-def get_adj_angs():
-    '''
-    Отослать тестовые данные (Измеренные углы + расстояния)
-    '''
-    
-    return send_test_data()
-
-
-@app.post('/Test1')
-def send_cor_angs(item: Points):
-    '''
-    Отослать исправленные горизонтальные углы и плюс вычисления для этого
-    '''
-    
-    data = item.dict()
-    # print(type(data))
-    # print(data)
-    
-    return True
-    # return get_correct_angles(data.get('Points'))
-
-
-@app.post('/Test2')
-def send(item: Points):
+@app.post('/GetResult')
+def send_result(item: Points):
     '''
     Отослать исправленные горизонтальные углы и плюс вычисления для этого
     '''
@@ -92,6 +49,11 @@ def send(item: Points):
     
     # return item
     return get_correct_angles(data.get('aPoints'))  # type: ignore
+
+
+@app.post('/Tests/responsemodel', response_model=Points)
+def respmodel(item: Points):
+    return item
 
 # if __name__ == "__main__":
 #     uvicorn.run(app)

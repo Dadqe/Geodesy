@@ -4,7 +4,15 @@ import json
 
 # Добавляю в поиск путей корневую директорию всех файлов
 sys.path.insert(1, os.getcwd())
-from calc import get_decimal_angle, calc_sum_of_measured_angles, get_dms_angle, calc_sum_of_theoretical_angles, calc_difference_ang, calc_permissible_discrepancy, get_correct_angles, send_test_data
+from calc import get_decimal_angle, calc_sum_of_measured_angles, get_dms_angle, calc_sum_of_theoretical_angles, calc_difference_ang, calc_permissible_discrepancy, get_correct_angles, send_test_data, send_test_data1, get_correct_angles1
+
+# Прочитывать для исходных данных, что б можно было использовать в следующих тестах. Тут данные с практики 1го курса
+with open("DataInput.json", "r", encoding="utf-8") as f:
+    TESTDATA1 = json.loads(f.read())
+
+# Исходные данные из Ваниной таблицы первой. ЕСТЬ БЕДА В ТОМ, что у него расстояния записаны с кучей знаков после запятой -_- так не должно быть, по идее, мы должны округлять по 3 знака, до см только.
+with open("Tests/DataInput.json", "r", encoding="utf-8") as f:
+    TESTDATA2 = json.loads(f.read())
 
 
 ang1 = (180, 50, 35)
@@ -64,177 +72,16 @@ assert calc_permissible_discrepancy(len(test_site2)) == 0.062361, "Неверн�
 #     f.write(json.dumps(cor_angles, ensure_ascii=False, indent=4))
 
 
-
-
-# T = [
-#         {
-#             "CorDeg": 107,
-#             "CorMin": 17,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 182,
-#             "CorMin": 59,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 205,
-#             "CorMin": 0,
-#             "CorSec": 15
-#         },
-#         {
-#             "CorDeg": 109,
-#             "CorMin": 25,
-#             "CorSec": 15
-#         },
-#         {
-#             "CorDeg": 172,
-#             "CorMin": 43,
-#             "CorSec": 15
-#         },
-#         {
-#             "CorDeg": 193,
-#             "CorMin": 4,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 150,
-#             "CorMin": 6,
-#             "CorSec": 15
-#         },
-#         {
-#             "CorDeg": 214,
-#             "CorMin": 47,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 109,
-#             "CorMin": 39,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 128,
-#             "CorMin": 25,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 208,
-#             "CorMin": 3,
-#             "CorSec": 15
-#         },
-#         {
-#             "CorDeg": 119,
-#             "CorMin": 16,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 139,
-#             "CorMin": 59,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 119,
-#             "CorMin": 9,
-#             "CorSec": 45
-#         }
-#     ]
-
-# list_of_angles = [(d.get('CorDeg'), d.get('CorMin'), d.get('CorSec')) for d in T]
-# list_of_decimal_angles = [get_decimal_angle(a) for a in list_of_angles]
-# sum_of_angles = calc_sum_of_measured_angles(list_of_angles)
-# print(get_dms_angle(sum_of_angles))
-# print(list_of_decimal_angles)
-
-TT = [
-    {
-        "Deg": 107,
-        "Min": 17,
-        "Sec": 30,
-        "HorDist": 33.55
-    },
-    {
-        "Deg": 182,
-        "Min": 59,
-        "Sec": 30,
-        "HorDist": 42.35
-    },
-    {
-        "Deg": 205,
-        "Min": 0,
-        "Sec": 0,
-        "HorDist": 41.95
-    },
-    {
-        "Deg": 109,
-        "Min": 25,
-        "Sec": 0,
-        "HorDist": 59.4
-    },
-    {
-        "Deg": 172,
-        "Min": 43,
-        "Sec": 0,
-        "HorDist": 66.61
-    },
-    {
-        "Deg": 193,
-        "Min": 4,
-        "Sec": 30,
-        "HorDist": 90.6
-    },
-    {
-        "Deg": 150,
-        "Min": 6,
-        "Sec": 0,
-        "HorDist": 50.81
-    },
-    {
-        "Deg": 214,
-        "Min": 47,
-        "Sec": 30,
-        "HorDist": 78
-    },
-    {
-        "Deg": 109,
-        "Min": 39,
-        "Sec": 30,
-        "HorDist": 52.93
-    },
-    {
-        "Deg": 128,
-        "Min": 25,
-        "Sec": 30,
-        "HorDist": 52.4
-    },
-    {
-        "Deg": 208,
-        "Min": 3,
-        "Sec": 0,
-        "HorDist": 49.38
-    },
-    {
-        "Deg": 119,
-        "Min": 16,
-        "Sec": 30,
-        "HorDist": 46.32
-    },
-    {
-        "Deg": 139,
-        "Min": 59,
-        "Sec": 30,
-        "HorDist": 294.69
-    },
-    {
-        "Deg": 119,
-        "Min": 9,
-        "Sec": 30,
-        "HorDist": 56.8
-    }
-]
-
 # Проверка работоспособности основной функции возвращения исправленных углов
-# TT_O = get_correct_angles(TT)
+# TT_O = get_correct_angles(TESTDATA2)
 # print(TT_O)
+
+TT_O_leftsides = get_correct_angles1(TESTDATA2)
+print(TT_O_leftsides)
+
+with open("DataOutput22.json", "w", encoding="utf-8") as f:
+    f.write(json.dumps(TT_O_leftsides, ensure_ascii=False, indent=4))
+
 # angles = TT_O.get("angles")
 # list_of_angles = [(d.get('CorDeg'), d.get('CorMin'), d.get('CorSec')) for d in angles]
 # sum_of_angles = calc_sum_of_measured_angles(list_of_angles)
@@ -260,3 +107,5 @@ TT = [
 
 # Проверка тестовых данных
 # send_test_data()
+# answ = send_test_data1('Tests/DataInput.json')
+# print(answ)
