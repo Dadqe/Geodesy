@@ -3,7 +3,10 @@
         {
             "CorDeg": 107,
             "CorMin": 17,
-            "CorSec": 45
+            "CorSec": 45,
+            "dirDeg": 107,
+            "dirMin": 17,
+            "dirSec": 45
         },
         {
             "CorDeg": 182,

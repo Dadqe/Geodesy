@@ -4,15 +4,21 @@ import json
 
 # Добавляю в поиск путей корневую директорию всех файлов
 sys.path.insert(1, os.getcwd())
-from calc import get_decimal_angle, calc_sum_of_measured_angles, get_dms_angle, calc_sum_of_theoretical_angles, calc_difference_ang, calc_permissible_discrepancy, get_correct_angles, send_test_data, send_test_data1, get_correct_angles1
+from calc import get_decimal_angle, calc_sum_of_measured_angles, get_dms_angle, calc_sum_of_theoretical_angles, calc_difference_ang, calc_permissible_discrepancy, get_correct_angles, send_test_data1, get_correct_angles1, get_correct_angles2
 
 # Прочитывать для исходных данных, что б можно было использовать в следующих тестах. Тут данные с практики 1го курса
-with open("DataInput.json", "r", encoding="utf-8") as f:
+with open("Data/DataInput1.json", "r", encoding="utf-8") as f:
     TESTDATA1 = json.loads(f.read())
 
 # Исходные данные из Ваниной таблицы первой. ЕСТЬ БЕДА В ТОМ, что у него расстояния записаны с кучей знаков после запятой -_- так не должно быть, по идее, мы должны округлять по 3 знака, до см только.
-with open("Tests/DataInput.json", "r", encoding="utf-8") as f:
+
+# Мне надо переделывать тестовые данные под то, что будет щас ещё передаваться дирекционный угол, набор входных данных немного надо преобразовать для проверки решения
+with open("Data/DataInput2.json", "r", encoding="utf-8") as f:
     TESTDATA2 = json.loads(f.read())
+
+# Тестовые данные от Вани с добавлением дир.угла
+with open("Data/DataInput2 copy.json", "r", encoding="utf-8") as f:
+    TESTDATA2_1 = json.loads(f.read())
 
 
 ang1 = (180, 50, 35)
@@ -76,36 +82,13 @@ assert calc_permissible_discrepancy(len(test_site2)) == 0.062361, "Неверн�
 # TT_O = get_correct_angles(TESTDATA2)
 # print(TT_O)
 
-TT_O_leftsides = get_correct_angles1(TESTDATA2)
-print(TT_O_leftsides)
+# TT_O_leftsides = get_correct_angles1(TESTDATA2_1)
+# print(TT_O_leftsides)
 
-with open("DataOutput22.json", "w", encoding="utf-8") as f:
+TT_O_leftsides = get_correct_angles2(TESTDATA2_1.get('aPoints'), TESTDATA2_1.get('bearingAngle'))
+# print(TT_O_leftsides)
+
+
+with open("Data/DataOutput2 copy.json", "w", encoding="utf-8") as f:
     f.write(json.dumps(TT_O_leftsides, ensure_ascii=False, indent=4))
 
-# angles = TT_O.get("angles")
-# list_of_angles = [(d.get('CorDeg'), d.get('CorMin'), d.get('CorSec')) for d in angles]
-# sum_of_angles = calc_sum_of_measured_angles(list_of_angles)
-
-
-# print(sum_of_angles)
-
-
-# dms_out = [(107, 17, 45), (182, 59, 45), (205, 0, 15), (109, 25, 15), (172, 43, 15), (193, 4, 45), (150, 6, 15), (214, 47, 45), (109, 39, 45), (128, 25, 45), (208, 3, 15), (119, 16, 45), (139, 59, 45), (119, 9, 45)]
-
-# new_out = [get_decimal_angle(angle) for angle in dms_out]
-# print(get_dms_angle(sum(new_out)))
-# print(get_dms_angle(calc_sum_of_measured_angles(dms_out)))
-
-
-# t = [107.295833, 182.995833, 205.004167, 109.420833, 172.720833, 193.079167, 150.104167, 214.795833, 109.6625, 128.429167, 208.054167, 119.279167, 139.995833, 119.1625]
-
-# summa_t = 0
-# for el in t:
-#     summa_t += el
-# summa_t = round(summa_t, 6)
-# print(get_dms_angle(summa_t))
-
-# Проверка тестовых данных
-# send_test_data()
-# answ = send_test_data1('Tests/DataInput.json')
-# print(answ)

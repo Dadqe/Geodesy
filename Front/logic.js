@@ -362,7 +362,7 @@ function submit() {
 
     let otherValues = document.getElementById("other_values");
 
-    fetch('http://127.0.0.1:8000/Test2', {
+    fetch('http://127.0.0.1:8000/GetResult', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'accept': '*/*' },
         body: JSON.stringify({
@@ -438,7 +438,7 @@ function FillOtherData(key, item) {
 
 
 function TestData() {
-    fetch('http://127.0.0.1:8000/TestData')
+    fetch('http://127.0.0.1:8000/TestData/1')
         .then(res => res.json())
         .then(item => {
             if (item && item.length > 0) {

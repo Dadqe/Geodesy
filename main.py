@@ -48,7 +48,7 @@ def send_result(item: Points):
     data = item.dict()
     
     # return item
-    return get_correct_angles(data.get('aPoints'))  # type: ignore
+    return get_correct_angles(data.get('aPoints'), data.get('bearingAngle'))  # type: ignore
 
 
 @app.post('/Tests/responsemodel', response_model=Points)
