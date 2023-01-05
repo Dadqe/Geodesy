@@ -13,11 +13,14 @@ class BearingAngle(BaseModel):
     Min: int = 0
     Sec: int = 0
 
+class Coords(BaseModel):
+    X: float = 0
+    Y: float = 0
 
 class Points(BaseModel):
     aPoints: list[Point] = []
     bearingAngle: BearingAngle
-    
+    coords: list[Coords]=[]
 
 
 class Data(BaseModel):
