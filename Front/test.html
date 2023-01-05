@@ -13,10 +13,28 @@
         <button onclick="MoreRow()">Добавить ещё</button>
         <label id="label">2</label>
         <input id="input" type="range" min=2 max=20 value=2 step=1 oninput="change()" onchange="change()">
+
+        <label>Выберите:</label>
+        <select id="select_test_data" style="min-width: 100px;">
+            <option value="1">Тестовые данные 1</option>
+            <option value="2">Тестовые данные 2</option>
+            <option value="3">Тестовые данные 3</option>
+        </select>
+        <button class="green" onclick="TestData()">Загрузить тестовые данные</button>
         <div id="container" class="table_container">
             <div id="header_container" class="header_container">
                 <table id="table_container">
                     <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="3">Измеренные углы</th>
+                            <th colspan="3">Исправленные углы</th>
+                            <th colspan="3">Дирекционные углы</th>
+                            <th>Расстояние</th>
+                            <th colspan="2">Приращение коор</th>
+                            <th colspan="2">Приращение коор ур.</th>
+                            <th colspan="2">Координаты</th>
+                        </tr>
                         <tr>
                             <th>Номер</th>
                             <th>Градус</th>
@@ -28,14 +46,13 @@
                             <th>Градус</th>
                             <th>Минута</th>
                             <th>Секунда</th>
-                            <th>Расстояние</th>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <th colspan="3">Измеренные углы</th>
-                            <th colspan="3">Исправленные углы</th>
-                            <th colspan="3">Дирекционные углы</th>
-                            <th></th>
+                            <th>Метры</th>
+                            <th>ΔX</th>
+                            <th>ΔY</th>
+                            <th>ΔX</th>
+                            <th>ΔY</th>
+                            <th>X</th>
+                            <th>Y</th>
                         </tr>
                     </thead>
                     <tbody id="tbody_container">
@@ -76,6 +93,13 @@
                         <thead>
                             <tr>
                                 <th></th>
+                                <th colspan="3"></th>
+                                <th colspan="3"></th>
+                                <th colspan="3">Дирекционные углы</th>
+                                <th>Периметр</th>
+                            </tr>
+                            <tr>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -85,14 +109,13 @@
                                 <th>Градус</th>
                                 <th>Минута</th>
                                 <th>Секунда</th>
+                                <th>Метры</th>
                                 <th></th>
-                            </tr>
-                            <tr>
                                 <th></th>
-                                <th colspan="3"></th>
-                                <th colspan="3"></th>
-                                <th colspan="3">Дирекционные углы</th>
-                                <th>Периметр</th>
+                                <th></th>
+                                <th></th>
+                                <th>X</th>
+                                <th>Y</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,11 +131,36 @@
                                 <td style="width: 88px;"><input id="bearing_angle_min" value="0"></td>
                                 <td style="width: 88px;"><input id="bearing_angle_sec" value="0"></td>
                                 <td style="width: 88px;"><input id="perimetr" value="0" disabled></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"><label>Начальное</label></td>
+                                <td style="width: 88px;"><input id="start_x" value="0"></td>
+                                <td style="width: 88px;"><input id="start_y" value="0"></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 61.5px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"><label>Конечное</label></td>
+                                <td style="width: 88px;"><input id="end_x" value="0"></td>
+                                <td style="width: 88px;"><input id="end_y" value="0"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div id="coordinates" class="other_value">
+                <!-- <div id="coordinates" class="other_value">
                     <div class="other_values_table" style="justify-content: right;">
                         <table>
                             <thead>
@@ -134,12 +182,12 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div> -->
                 <div id="other_values" class="other_values">
                     <div class="other_values_table">
                         <table>
                             <thead>
-                                <th colspan="3">sum_measured_angles</th>
+                                <th colspan="3">Сумма измеренных углов</th>
                             </thead>
                             <tbody>
                                 <td><input id="sum_measured_angles_deg" disabled></td>
@@ -149,7 +197,7 @@
                         </table>
                         <table>
                             <thead>
-                                <th colspan="3">sum_correct_angles</th>
+                                <th colspan="3">Сумма исправленных углов</th>
                             </thead>
                             <tbody>
                                 <td><input id="sum_correct_angles_deg" disabled></td>
@@ -161,7 +209,7 @@
                     <div class="other_values_table">
                         <table>
                             <thead>
-                                <th colspan="3">theoretical_sum_of_angles</th>
+                                <th colspan="3">Теоретическая сумма углов</th>
                             </thead>
                             <tbody>
                                 <td><input id="theoretical_sum_of_angles_deg" disabled></td>
@@ -173,7 +221,7 @@
                     <div class="other_values_table">
                         <table>
                             <thead>
-                                <th colspan="3">permissible_difference</th>
+                                <th colspan="3">Допустимая невязка</th>
                             </thead>
                             <tbody>
                                 <td><input id="permissible_difference_deg" disabled></td>
@@ -185,7 +233,7 @@
                     <div class="other_values_table">
                         <table>
                             <thead>
-                                <th colspan="3">difference</th>
+                                <th colspan="3">Невязка</th>
                             </thead>
                             <tbody>
                                 <td><input id="difference_deg" disabled></td>
@@ -228,13 +276,7 @@
 
 
         <button class="green" onclick="submit()">Собрать циферки</button>
-        <br>
-        <button class="green" onclick="TestData()">Тестовые данные</button>
-        <label>Выберите:</label>
-        <select id="select_test_data" style="min-width: 100px;">
-            <option value="1">Тестовые данные 1</option>
-            <option value="2">Тестовые данные 2</option>
-        </select>
+
 
         <!-- <div style="margin: 100px; display: block; width: 500px; height: 300px;">
         <button onclick="click123()">Я Кнопка</button>
@@ -242,7 +284,7 @@
         <div id="test_con"></div>
     </div> -->
     </div>
-    <footer>bottom</footer>
+    <!-- <footer>bottom</footer> -->
 </body>
 
 </html>

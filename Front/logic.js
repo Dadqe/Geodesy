@@ -303,6 +303,50 @@ function AddRow() {
     inputDistan.value = 0;
     inputDistan.classList.add("distant_input");
     td11.appendChild(inputDistan);
+
+    let td12 = document.createElement("td");
+    let inputСoordinateIncrementX = document.createElement("input");
+    inputСoordinateIncrementX.id = "inputСoordinateIncrementX" + index;
+    inputСoordinateIncrementX.value = 0;
+    inputСoordinateIncrementX.disabled = true;
+    td12.appendChild(inputСoordinateIncrementX);
+
+    let td13 = document.createElement("td");
+    let inputСoordinateIncrementY = document.createElement("input");
+    inputСoordinateIncrementY.id = "inputСoordinateIncrementY" + index;
+    inputСoordinateIncrementY.value = 0;
+    inputСoordinateIncrementY.disabled = true;
+    td13.appendChild(inputСoordinateIncrementY);
+
+    let td14 = document.createElement("td");
+    let inputСoordinateIncrementCorrectX = document.createElement("input");
+    inputСoordinateIncrementCorrectX.id = "inputСoordinateIncrementCorrectX" + index;
+    inputСoordinateIncrementCorrectX.value = 0;
+    inputСoordinateIncrementCorrectX.disabled = true;
+    td14.appendChild(inputСoordinateIncrementCorrectX);
+
+    let td15 = document.createElement("td");
+    let inputСoordinateIncrementCorrectY = document.createElement("input");
+    inputСoordinateIncrementCorrectY.id = "inputСoordinateIncrementCorrectY" + index;
+    inputСoordinateIncrementCorrectY.value = 0;
+    inputСoordinateIncrementCorrectY.disabled = true;
+    td15.appendChild(inputСoordinateIncrementCorrectY);
+
+    let td16 = document.createElement("td");
+    let inputCoordX = document.createElement("input");
+    inputCoordX.id = "inputCoordX" + index;
+    inputCoordX.value = 0;
+    inputCoordX.disabled = true;
+    td16.appendChild(inputCoordX);
+
+    let td17 = document.createElement("td");
+    let inputCoordY = document.createElement("input");
+    inputCoordY.id = "inputCoordY" + index;
+    inputCoordY.value = 0;
+    inputCoordY.disabled = true;
+    td17.appendChild(inputCoordY);
+
+
     tr.appendChild(td1);
     tr.appendChild(td2);
     tr.appendChild(td3);
@@ -315,6 +359,13 @@ function AddRow() {
     tr.appendChild(td7);
 
     tr.appendChild(td11);
+
+    tr.appendChild(td12);
+    tr.appendChild(td13);
+    tr.appendChild(td14);
+    tr.appendChild(td15);
+    tr.appendChild(td16);
+    tr.appendChild(td17);
     tbody.appendChild(tr);
 }
 
@@ -367,12 +418,12 @@ function submit() {
     let end_x = document.getElementById("end_x");
     let end_y = document.getElementById("end_y");
 
-    let starts=new Coords();
-    starts.X=start_x.value;
-    starts.Y=start_y.value;
-    let ends=new Coords();
-    ends.X=end_x.value;
-    ends.Y=end_y.value;
+    let starts = new Coords();
+    starts.X = start_x.value;
+    starts.Y = start_y.value;
+    let ends = new Coords();
+    ends.X = end_x.value;
+    ends.Y = end_y.value;
     coords.push(starts);
     coords.push(ends);
     console.log(coords);
@@ -398,6 +449,18 @@ function submit() {
             if (item) {
                 if (item.angles && item.angles.length > 0) {
                     FillMainData(item.angles);
+                }
+                if (item.bearing_angles && item.bearing_angles.length > 0) {
+                    FillBearingAngles(item.bearing_angles);
+                }
+                if (item.coordinate_increments && item.coordinate_increments.length > 0) {
+                    FillCoordinates("coordinate_increments", item.coordinate_increments);
+                }
+                if (item.coordinate_increment_correct && item.coordinate_increment_correct.length > 0) {
+                    FillCoordinates("coordinate_increment_correct", item.coordinate_increment_correct);
+                }
+                if (item.all_coords && item.all_coords.length > 0) {
+                    FillCoordinates("all_coords", item.all_coords);
                 }
                 if (item.difference) {
                     FillOtherData("difference", item.difference);
@@ -450,6 +513,19 @@ function FillMainData(angles) {
     }
 }
 
+function FillBearingAngles(bAngles) {
+    if (bAngles && bAngles.length > 0) {
+        for (let i = 1; i < bAngles.length + 1; i++) {
+            let Deg = document.getElementById("DegDirRead" + i);
+            let Min = document.getElementById("MinDirRead" + i);
+            let Sec = document.getElementById("SecDirRead" + i);
+            Deg.value = bAngles[i - 1].Deg;
+            Min.value = bAngles[i - 1].Min;
+            Sec.value = bAngles[i - 1].Sec;
+        }
+    }
+}
+
 function FillOtherData(key, item) {
     let Deg = document.getElementById(key + "_deg");
     let Min = document.getElementById(key + "_min");
@@ -459,6 +535,38 @@ function FillOtherData(key, item) {
     Sec.value = item.Sec;
 }
 
+function FillCoordinates(type, coords) {
+    if (type == "coordinate_increments") {
+        if (coords && coords.length > 0) {
+            for (let i = 1; i < coords.length + 1; i++) {
+                let X = document.getElementById("inputСoordinateIncrementX" + i);
+                let Y = document.getElementById("inputСoordinateIncrementY" + i);
+                X.value = coords[i - 1].incX;
+                Y.value = coords[i - 1].incY;
+            }
+        }
+    }
+    if(type=="coordinate_increment_correct"){
+        if (coords && coords.length > 0) {
+            for (let i = 1; i < coords.length + 1; i++) {
+                let X = document.getElementById("inputСoordinateIncrementCorrectX" + i);
+                let Y = document.getElementById("inputСoordinateIncrementCorrectY" + i);
+                X.value = coords[i - 1].incXcor;
+                Y.value = coords[i - 1].incYcor;
+            }
+        }
+    }
+    if(type=="all_coords"){
+        if (coords && coords.length > 0) {
+            for (let i = 1; i < coords.length + 1; i++) {
+                let X = document.getElementById("inputCoordX" + i);
+                let Y = document.getElementById("inputCoordY" + i);
+                X.value = coords[i - 1].X;
+                Y.value = coords[i - 1].Y;
+            }
+        }
+    }
+}
 
 
 
@@ -467,6 +575,9 @@ function TestData() {
     fetch('http://127.0.0.1:8000/TestData/' + select_test_data.value)
         .then(res => res.json())
         .then(item => {
+            let otherValues = document.getElementById("other_values");
+            otherValues.style.display = "none";
+            ClearData();
             if (item && item.length > 0) {
                 let tbody = document.getElementById("tbody_container");
                 tbody.innerHTML = "";
@@ -476,8 +587,30 @@ function TestData() {
                     header_container.style.display = "table";
                     AddRow();
                 }
-                FillTestData(item);
+                FillTestDataPoints(item);
                 console.log(item);
+            }
+            if (item && !item.length) {
+                let tbody = document.getElementById("tbody_container");
+                tbody.innerHTML = "";
+                let header_container = document.getElementById("header_container");
+                header_container.style.display = "none";
+                if (item.aPoints.length) {
+                    for (let i = 0; i < item.aPoints.length; i++) {
+                        header_container.style.display = "table";
+                        AddRow();
+                    }
+                    FillTestDataPoints(item.aPoints);
+                    console.log(item.aPoints);
+                }
+                if (item.bearingAngle) {
+                    FillTestDataBearingAngle(item.bearingAngle);
+                    console.log(item.bearingAngle);
+                }
+                if (item.coords) {
+                    FillTestDataCoords(item.coords);
+                    console.log(item.coords);
+                }
             }
             if (item == false) {
                 let tbody = document.getElementById("tbody_container");
@@ -491,7 +624,7 @@ function TestData() {
         });
 }
 
-function FillTestData(items) {
+function FillTestDataPoints(items) {
     if (items && items.length > 0) {
         for (let i = 1; i < items.length + 1; i++) {
             let Deg = document.getElementById("Deg" + i);
@@ -504,4 +637,36 @@ function FillTestData(items) {
             Distan.value = items[i - 1].HorDist;
         }
     }
+}
+function FillTestDataBearingAngle(item) {
+    if (item) {
+        let Deg = document.getElementById("bearing_angle_deg");
+        let Min = document.getElementById("bearing_angle_min");
+        let Sec = document.getElementById("bearing_angle_sec");
+        Deg.value = item.Deg;
+        Min.value = item.Min;
+        Sec.value = item.Sec;
+    }
+}
+function FillTestDataCoords(item) {
+    if (item) {
+        let start_x = document.getElementById("start_x");
+        let start_y = document.getElementById("start_y");
+        let end_x = document.getElementById("end_x");
+        let end_y = document.getElementById("end_y");
+        start_x.value = item[0].X;
+        start_y.value = item[0].Y;
+        end_x.value = item[1].X;
+        end_y.value = item[1].Y;
+    }
+}
+function ClearData() {
+    document.getElementById("bearing_angle_deg").value = 0;
+    document.getElementById("bearing_angle_min").value = 0;
+    document.getElementById("bearing_angle_sec").value = 0;
+    document.getElementById("start_x").value = 0;
+    document.getElementById("start_y").value = 0;
+    document.getElementById("end_x").value = 0;
+    document.getElementById("end_y").value = 0;
+    document.getElementById("perimetr").value = 0;
 }
