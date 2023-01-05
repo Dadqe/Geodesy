@@ -35,6 +35,9 @@ def get_adj_test(id: int):
     elif id == 2:
         # Данные от Вани из первой таблицы.
         return send_test_data("Data/DataInput2.json")
+    elif id == 3:
+        # Данные от Вани из первой таблицы (со всеми нужными данными для вычисления (начальный дир. угол + начальные и конечные координаты)).
+        return send_test_data("Data/DataInput3.json")
     else:
         return False
 
@@ -60,103 +63,3 @@ def respmodel(item: Points):
 
 
 # uvicorn main:app --reload
-
-# {
-#     "angles": [
-#         {
-#             "CorDeg": 107,
-#             "CorMin": 17,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 182,
-#             "CorMin": 59,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 205,
-#             "CorMin": 0,
-#             "CorSec": 15
-#         },
-#         {
-#             "CorDeg": 109,
-#             "CorMin": 25,
-#             "CorSec": 15
-#         },
-#         {
-#             "CorDeg": 119,
-#             "CorMin": 9,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 172,
-#             "CorMin": 43,
-#             "CorSec": 15
-#         },
-#         {
-#             "CorDeg": 193,
-#             "CorMin": 4,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 150,
-#             "CorMin": 6,
-#             "CorSec": 15
-#         },
-#         {
-#             "CorDeg": 214,
-#             "CorMin": 47,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 109,
-#             "CorMin": 39,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 128,
-#             "CorMin": 25,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 208,
-#             "CorMin": 3,
-#             "CorSec": 15
-#         },
-#         {
-#             "CorDeg": 119,
-#             "CorMin": 16,
-#             "CorSec": 45
-#         },
-#         {
-#             "CorDeg": 139,
-#             "CorMin": 59,
-#             "CorSec": 45
-#         }
-#     ],
-#     "sum_measured_angles": {
-#         "Deg": 2159,
-#         "Min": 56,
-#         "Sec": 30
-#     },
-#     "theoretical_sum_of_angles": {
-#         "Deg": 2160,
-#         "Min": 0,
-#         "Sec": 0
-#     },
-#     "difference": {
-#         "Deg": 0,
-#         "Min": 3,
-#         "Sec": 30
-#     },
-#     "permissible_difference": {
-#         "Deg": 0,
-#         "Min": 3,
-#         "Sec": 44
-#     },
-#     "sum_correct_angles": {
-#         "Deg": 2160,
-#         "Min": 0,
-#         "Sec": 0
-#     }
-# }
