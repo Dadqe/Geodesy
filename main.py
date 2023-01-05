@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query
 from schemas import Point, Points, Data
-from calc import get_correct_angles, send_test_data1
+from calc import get_correct_angles, send_test_data, get_result
 import uvicorn
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,10 +31,10 @@ def get_adj_test(id: int):
     
     if id == 1:
         # Данные с практики первого курса
-        return send_test_data1("Data/DataInput1.json")
+        return send_test_data("Data/DataInput1.json")
     elif id == 2:
         # Данные от Вани из первой таблицы.
-        return send_test_data1("Data/DataInput2.json")
+        return send_test_data("Data/DataInput2.json")
     else:
         return False
 
@@ -47,7 +47,7 @@ def send_result(item: Points):
     
     data = item.dict()
     
-    # return item
+    return get_result(data)
     return get_correct_angles(data.get('aPoints'), data.get('bearingAngle'))  # type: ignore
 
 
