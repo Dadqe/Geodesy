@@ -92,7 +92,7 @@
                                 <th colspan="3"></th>
                                 <th colspan="3"></th>
                                 <th colspan="3">Дирекционные углы</th>
-                                <th></th>
+                                <th>Периметр</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -104,13 +104,36 @@
                                 <td style="width: 88px;"></td>
                                 <td style="width: 88px;"></td>
                                 <td style="width: 88px;"></td>
-                                <td style="width: 88px;"><input id="bearing_angle_deg" value="0"></td>
+                                <td style="width: 88px;"><input id="bearing_angle_deg" value="0" title="test"></td>
                                 <td style="width: 88px;"><input id="bearing_angle_min" value="0"></td>
                                 <td style="width: 88px;"><input id="bearing_angle_sec" value="0"></td>
-                                <td style="width: 88px;"></td>
+                                <td style="width: 88px;"><input id="perimetr" value="0" disabled></td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div id="coordinates" class="other_value">
+                    <div class="other_values_table" style="justify-content: right;">
+                        <table>
+                            <thead>
+                                <th></th>
+                                <th>X</th>
+                                <th>Y</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><label>Начальное</label></td>
+                                    <td><input id="start_x" value="0"></td>
+                                    <td><input id="start_y" value="0"></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Конечное</label></td>
+                                    <td><input id="end_x" value="0"></td>
+                                    <td><input id="end_y" value="0"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div id="other_values" class="other_values">
                     <div class="other_values_table">
@@ -119,9 +142,9 @@
                                 <th colspan="3">sum_measured_angles</th>
                             </thead>
                             <tbody>
-                                <td><input id="sum_measured_angles_deg"></td>
-                                <td><input id="sum_measured_angles_min"></td>
-                                <td><input id="sum_measured_angles_sec"></td>
+                                <td><input id="sum_measured_angles_deg" disabled></td>
+                                <td><input id="sum_measured_angles_min" disabled></td>
+                                <td><input id="sum_measured_angles_sec" disabled></td>
                             </tbody>
                         </table>
                         <table>
@@ -129,9 +152,9 @@
                                 <th colspan="3">sum_correct_angles</th>
                             </thead>
                             <tbody>
-                                <td><input id="sum_correct_angles_deg"></td>
-                                <td><input id="sum_correct_angles_min"></td>
-                                <td><input id="sum_correct_angles_sec"></td>
+                                <td><input id="sum_correct_angles_deg" disabled></td>
+                                <td><input id="sum_correct_angles_min" disabled></td>
+                                <td><input id="sum_correct_angles_sec" disabled></td>
                             </tbody>
                         </table>
                     </div>
@@ -141,9 +164,9 @@
                                 <th colspan="3">theoretical_sum_of_angles</th>
                             </thead>
                             <tbody>
-                                <td><input id="theoretical_sum_of_angles_deg"></td>
-                                <td><input id="theoretical_sum_of_angles_min"></td>
-                                <td><input id="theoretical_sum_of_angles_sec"></td>
+                                <td><input id="theoretical_sum_of_angles_deg" disabled></td>
+                                <td><input id="theoretical_sum_of_angles_min" disabled></td>
+                                <td><input id="theoretical_sum_of_angles_sec" disabled></td>
                             </tbody>
                         </table>
                     </div>
@@ -153,9 +176,9 @@
                                 <th colspan="3">permissible_difference</th>
                             </thead>
                             <tbody>
-                                <td><input id="permissible_difference_deg"></td>
-                                <td><input id="permissible_difference_min"></td>
-                                <td><input id="permissible_difference_sec"></td>
+                                <td><input id="permissible_difference_deg" disabled></td>
+                                <td><input id="permissible_difference_min" disabled></td>
+                                <td><input id="permissible_difference_sec" disabled></td>
                             </tbody>
                         </table>
                     </div>
@@ -165,9 +188,9 @@
                                 <th colspan="3">difference</th>
                             </thead>
                             <tbody>
-                                <td><input id="difference_deg"></td>
-                                <td><input id="difference_min"></td>
-                                <td><input id="difference_sec"></td>
+                                <td><input id="difference_deg" disabled></td>
+                                <td><input id="difference_min" disabled></td>
+                                <td><input id="difference_sec" disabled></td>
                             </tbody>
                         </table>
                     </div>
@@ -197,15 +220,22 @@
 
 
 
-        <div
+        <!-- <div
             style="width:30px; text-align: center; align-items: center; align-self: center; margin: 25% 50%; display: none;">
             <div id="test" style="border: 1px rgb(75, 69, 69) solid; width: 20px; height: 20px; ">
             </div>
-        </div>
+        </div> -->
 
 
         <button class="green" onclick="submit()">Собрать циферки</button>
+        <br>
         <button class="green" onclick="TestData()">Тестовые данные</button>
+        <label>Выберите:</label>
+        <select id="select_test_data" style="min-width: 100px;">
+            <option value="1">Тестовые данные 1</option>
+            <option value="2">Тестовые данные 2</option>
+        </select>
+
         <!-- <div style="margin: 100px; display: block; width: 500px; height: 300px;">
         <button onclick="click123()">Я Кнопка</button>
         <button onclick="click321()">Я новая Кнопка1</button>

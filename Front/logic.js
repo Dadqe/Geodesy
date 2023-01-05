@@ -9,6 +9,10 @@ class BearingAngle {
     Min = null;
     Sec = null;
 }
+class Coords {
+    X = null;
+    Y = null;
+}
 var aPoints = [];
 function CreateTable() {
     let input = document.getElementById("input");
@@ -309,7 +313,7 @@ function AddRow() {
     tr.appendChild(td5);
     tr.appendChild(td6);
     tr.appendChild(td7);
-    
+
     tr.appendChild(td11);
     tbody.appendChild(tr);
 }
@@ -347,15 +351,31 @@ function submit() {
         aPoints.push(record);
     }
     let bearingAngle = new BearingAngle();
-    let bearing_angle_deg=document.getElementById("bearing_angle_deg");
-    let bearing_angle_min=document.getElementById("bearing_angle_min");
-    let bearing_angle_sec=document.getElementById("bearing_angle_sec");
+    let bearing_angle_deg = document.getElementById("bearing_angle_deg");
+    let bearing_angle_min = document.getElementById("bearing_angle_min");
+    let bearing_angle_sec = document.getElementById("bearing_angle_sec");
     bearingAngle.Deg = bearing_angle_deg.value;
     bearingAngle.Min = bearing_angle_min.value;
     bearingAngle.Sec = bearing_angle_sec.value;
     //aPoints.push(bearingAngle);
     console.log(aPoints);
     console.log(bearingAngle);
+
+    let coords = [];
+    let start_x = document.getElementById("start_x");
+    let start_y = document.getElementById("start_y");
+    let end_x = document.getElementById("end_x");
+    let end_y = document.getElementById("end_y");
+
+    let starts=new Coords();
+    starts.X=start_x.value;
+    starts.Y=start_y.value;
+    let ends=new Coords();
+    ends.X=end_x.value;
+    ends.Y=end_y.value;
+    coords.push(starts);
+    coords.push(ends);
+    console.log(coords);
 
     let loader = document.getElementById("loader");
     loader.style.display = "flex";
@@ -367,7 +387,8 @@ function submit() {
         headers: { 'Content-Type': 'application/json', 'accept': '*/*' },
         body: JSON.stringify({
             aPoints,
-            bearingAngle
+            bearingAngle,
+            coords
         })
 
     })
@@ -392,6 +413,10 @@ function submit() {
                 }
                 if (item.theoretical_sum_of_angles) {
                     FillOtherData("theoretical_sum_of_angles", item.theoretical_sum_of_angles);
+                }
+                if (item.perimetr) {
+                    let Perimetr = document.getElementById("perimetr");
+                    Perimetr.value = item.perimetr;
                 }
             }
         }
@@ -438,7 +463,8 @@ function FillOtherData(key, item) {
 
 
 function TestData() {
-    fetch('http://127.0.0.1:8000/TestData/1')
+    let select_test_data = document.getElementById("select_test_data");
+    fetch('http://127.0.0.1:8000/TestData/' + select_test_data.value)
         .then(res => res.json())
         .then(item => {
             if (item && item.length > 0) {
@@ -452,6 +478,12 @@ function TestData() {
                 }
                 FillTestData(item);
                 console.log(item);
+            }
+            if (item == false) {
+                let tbody = document.getElementById("tbody_container");
+                tbody.innerHTML = "";
+                let header_container = document.getElementById("header_container");
+                header_container.style.display = "none";
             }
         }
         ).catch((ex) => {
