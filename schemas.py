@@ -20,7 +20,9 @@ class Coords(BaseModel):
 class Points(BaseModel):
     aPoints: list[Point] = []
     bearingAngle: BearingAngle
-    coords: list[Coords]=[]
+    coords: list[Coords] = []
+    direction_of_circling: str = 'right'    # Направление хода, по часовой или против (право или лево, считать от верхней точки круга)
+    side_of_angles: str = 'right'           # Сторона измерения углов относительно хода
 
 
 class Data(BaseModel):
