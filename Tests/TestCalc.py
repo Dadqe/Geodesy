@@ -4,24 +4,24 @@ import json
 
 # Добавляю в поиск путей корневую директорию всех файлов
 sys.path.insert(1, os.getcwd())
-from calc import get_decimal_angle, calc_sum_of_measured_angles, get_dms_angle, calc_sum_of_theoretical_angles, calc_difference_ang, calc_permissible_discrepancy, get_correct_angles, send_test_data, get_correct_angles1, get_correct_angles2, get_result, get_result1
+from calc import get_decimal_angle, calc_sum_of_measured_angles, get_dms_angle, calc_sum_of_theoretical_angles, calc_difference_ang, calc_permissible_discrepancy, send_test_data, get_result, get_result1, get_result2
 
 # Прочитывать для исходных данных, что б можно было использовать в следующих тестах. Тут данные с практики 1го курса
-with open("Data/DataInput1.json", "r", encoding="utf-8") as f:
+with open("Data/Input/DataInput1.json", "r", encoding="utf-8") as f:
     TESTDATA1 = json.loads(f.read())
 
 # Исходные данные из Ваниной таблицы первой. ЕСТЬ БЕДА В ТОМ, что у него расстояния записаны с кучей знаков после запятой -_- так не должно быть, по идее, мы должны округлять по 3 знака, до см только.
 
 # Мне надо переделывать тестовые данные под то, что будет щас ещё передаваться дирекционный угол, набор входных данных немного надо преобразовать для проверки решения
-with open("Data/DataInput2.json", "r", encoding="utf-8") as f:
-    TESTDATA2 = json.loads(f.read())
+# with open("Data/Input/DataInput2.json", "r", encoding="utf-8") as f:
+#     TESTDATA2 = json.loads(f.read())
 
 # Тестовые данные от Вани с добавлением дир.угла
-with open("Data/DataInput2 copy.json", "r", encoding="utf-8") as f:
-    TESTDATA2_1 = json.loads(f.read())
+# with open("Data/Input/DataInput2 copy.json", "r", encoding="utf-8") as f:
+#     TESTDATA2_1 = json.loads(f.read())
     
 # Тестовые данные от Вани с добавлением дир.угла, начальной и конечной координаты
-with open("Data/DataInput3 copy.json", "r", encoding="utf-8") as f:
+with open("Data/Input/DataInput3 copy.json", "r", encoding="utf-8") as f:
     TESTDATA3 = json.loads(f.read())
 
 
@@ -97,7 +97,7 @@ with open("Data/DataInput3 copy.json", "r", encoding="utf-8") as f:
 #     f.write(json.dumps(TT_O_leftsides, ensure_ascii=False, indent=4))
 
 
-TT_O = get_result1(TESTDATA3)
+TT_O = get_result2(TESTDATA3)
 
-with open("Data/DataOutput33 copy2.json", "w", encoding="utf-8") as f:
-    f.write(json.dumps(TT_O, ensure_ascii=False, indent=4))
+# with open("Data/Output/DataOutput33 copy2.json", "w", encoding="utf-8") as f:
+#     f.write(json.dumps(TT_O, ensure_ascii=False, indent=4))

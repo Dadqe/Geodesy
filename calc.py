@@ -260,21 +260,24 @@ def calc_all_coordinates1(initial_coord: list[tuple[float, float]], increment_co
     return coords_out
 
 
-def get_result(data: dict[str, list[dict[str, int | float]] | dict[str, int | float]]) -> dict[str, list | dict]:    # 
+def get_result2(data: dict[str, list[dict[str, int | float]] | dict[str, int | float]]) -> dict[str, list | dict]:    # 
+    '''Эта функция сработает только если измерялись левые углы по ходу движения, ход был по часовой стрелке (т.е. эти углы были внешними в многоугольнике. Из-за этого по-другому вычислялось теоретическое значение углов'''
     
     measured_angles: list[dict[str, int | float]] = data.get('aPoints')
     bearingAngle: dict[str, int] = data.get('bearingAngle')
     initial_coords: list[dict[str, float]] = data.get('coords')         # Должно находиться 2 координаты всего лишь, начальная и конечная. С первой строки и последней в вебе должны собираться эти точки. Когда будут просчитываться все коориднаты, программа должна посчиатть ещё сама и последнюю координату и сравнить её с той, которую передали. 
     
     list_of_angles = [(d.get('Deg'), d.get('Min'), d.get('Sec')) for d in measured_angles]  # d/m/s
-    list_of_decimal_angles = [get_decimal_angle(a) for a in list_of_angles]
-    sum_of_angles = calc_sum_of_measured_angles(list_of_angles) # type: ignore
+    list_of_decimal_angles = [get_decimal_angle1(a) for a in list_of_angles]
+    sum_of_angles = calc_sum_of_measured_angles1(list_of_angles) # type: ignore
     
     theoretical_sum_of_angles = calc_sum_of_theoretical_angles(len(list_of_angles), 'left')
-    difference = calc_difference_ang(sum_of_angles, theoretical_sum_of_angles)  # Разница между теорией и пратикой
+    difference = calc_difference_ang1(sum_of_angles, theoretical_sum_of_angles)  # Разница между теорией и пратикой
     amendments = calc_amendments(difference, len(list_of_angles)) # Поправка в каждый угол поделённая поровну между всеми углами.
-    permissible_difference = calc_permissible_discrepancy(len(list_of_angles))  # Допустимая невязка
-    correct_angles = [calc_correct_angle(angle, amendments) for angle in list_of_decimal_angles]    # decimal
+    
+    permissible_difference = calc_permissible_discrepancy1(len(list_of_angles))  # Допустимая невязка
+    
+    correct_angles = [calc_correct_angle1(angle, amendments) for angle in list_of_decimal_angles]    # decimal
     
     bearingAngle_dms = get_decimal_angle((bearingAngle.get("Deg"), bearingAngle.get("Min"), bearingAngle.get("Sec")))   # type: ignore decimal
     bearingAngles = get_all_bearing_angles(bearingAngle_dms, correct_angles, 'left')    # list[decimal, ...]
@@ -289,8 +292,8 @@ def get_result(data: dict[str, list[dict[str, int | float]] | dict[str, int | fl
     list_dist = [d.get('HorDist') for d in measured_angles[:-1]]
     perimeter = calc_sum_of_distance(list_dist)
     
-    list_coordinate_increments = calc_coordinate_increments(list_dist, bearingAngles)   # Приращения координат
-    list_dict_coordinate_increments = [{"incX": X, "incY": Y} for X, Y in list_coordinate_increments]
+    list_coordinate_increments = calc_coordinate_increments1(list_dist, bearingAngles)   # Приращения координат
+    list_dict_coordinate_increments = [{"incX": round(X, 3), "incY": round(Y, 3)} for X, Y in list_coordinate_increments]   # Округляю только при сохранении информации, в таком виде будет передаваться для оттображения
     
     list_initial_coords = [(d.get('X'), d.get('Y')) for d in initial_coords]    # Начальные переданные координаты
     
@@ -298,20 +301,26 @@ def get_result(data: dict[str, list[dict[str, int | float]] | dict[str, int | fl
     # !!!!!!! Т.к. я начал уже округлять где-то до этого вычисляемые значения, то и тут везде я тоже округляю, что б видеть и понимать нормально, что получается в итоге
     # (Я наверное, так сделал, что б сразу эти занчения передавать на фронт, хотя хз)
     # возможно придётся переделывать всё без округлений и только для вывода на отображение округялть в отдельных функциях....
-    sum_theoretical_coordinate_increments = (round(list_initial_coords[1][0] - list_initial_coords[0][0], 3), 
-                                             round(list_initial_coords[1][1] - list_initial_coords[0][1], 3))   # Конечная координата - начальная координата
-    sum_calculated_coordinate_increments = (round(sum([d[0] for d in list_coordinate_increments]), 3), 
-                                            round(sum([d[1] for d in list_coordinate_increments]), 3))          # Просто просуммировал вычисленыне приращения
-    difference_increments = (round(sum_theoretical_coordinate_increments[0] - sum_calculated_coordinate_increments[0], 3), 
-                             round(sum_theoretical_coordinate_increments[1] - sum_calculated_coordinate_increments[1], 3))  # Теория - практика, что б в следующих вычислениях не пришлось брать невязку с обратным знаком...
+    sum_theoretical_coordinate_increments = (list_initial_coords[1][0] - list_initial_coords[0][0], 
+                                             list_initial_coords[1][1] - list_initial_coords[0][1])   # Конечная координата - начальная координата
+    sum_calculated_coordinate_increments = (sum([d[0] for d in list_coordinate_increments]), 
+                                            sum([d[1] for d in list_coordinate_increments]))          # Просто просуммировал вычисленыне приращения
+    difference_increments = (sum_theoretical_coordinate_increments[0] - sum_calculated_coordinate_increments[0], 
+                             sum_theoretical_coordinate_increments[1] - sum_calculated_coordinate_increments[1])  # Теория - практика, что б в следующих вычислениях не пришлось брать невязку с обратным знаком...
+    
     difference_abs = math.hypot(difference_increments[0], difference_increments[1]) # fабс
     difference_relative = (difference_abs / perimeter, 1 / (difference_abs / perimeter)) # fотн Сразу перевёл в удобный вариант масштаба, там всё зависит от разряда теодолитного хода, вот относительно разряда не должно превышать это число. Типа если это условие будет выполняться, то можно приступать к вычислению исправленных приращений координат. Возможно в будущем надо будет придумать эту проверку. ❓ Если число получается больше 0.0005 (это первый разряд 1:2000), например, 0.00019, то значит это хорошо
     
-    coordinate_increment_correct = calc_coordinate_increment_correct(list_coordinate_increments, list_dist, difference_increments, perimeter)   # Исправленные приращения координат
-    list_dict_coordinate_increment_correct = [{"incXcor": X, "incYcor": Y} for X, Y in coordinate_increment_correct]
+    coordinate_increment_correct = calc_coordinate_increment_correct1(list_coordinate_increments, list_dist, difference_increments, perimeter)   # Исправленные приращения координат list[tuple[float, float]]
+    sum_corrected_coordinate_increments = (sum([c[0] for c in coordinate_increment_correct]),
+                                           sum([c[1] for c in coordinate_increment_correct]))
     
-    all_coords = calc_all_coordinates(list_initial_coords, coordinate_increment_correct)
-    all_coords_dict = [{"X": X, "Y": Y} for X, Y in all_coords]
+    # print(round(sum_theoretical_coordinate_increments[0], 2) == round(sum_corrected_coordinate_increments[0], 2), round(sum_theoretical_coordinate_increments[1], 2) == round(sum_corrected_coordinate_increments[1], 2))   # Что б сравнить полученную сумму приращений с теоретической
+    
+    list_dict_coordinate_increment_correct = [{"incXcor": round(X, 3), "incYcor": round(Y, 3)} for X, Y in coordinate_increment_correct]    # Округление для отображения нормальных чисел
+    
+    all_coords = calc_all_coordinates1(list_initial_coords, coordinate_increment_correct)
+    all_coords_dict = [{"X": round(X, 3), "Y": round(Y, 3)} for X, Y in all_coords]
     
     data_out = {
         "angles": correct_angles,
@@ -324,10 +333,16 @@ def get_result(data: dict[str, list[dict[str, int | float]] | dict[str, int | fl
         "perimetr": perimeter,
         "coordinate_increments": list_dict_coordinate_increments,
         "coordinate_increment_correct": list_dict_coordinate_increment_correct,
+        "sum_theoretical_coordinate_increments": (round(sum_theoretical_coordinate_increments[0], 2), 
+                                                  round(sum_theoretical_coordinate_increments[1], 2)),
+        "sum_calculated_coordinate_increments": sum_calculated_coordinate_increments,
+        "sum_corrected_coordinate_increments": (round(sum_corrected_coordinate_increments[0], 2),
+                                                round(sum_corrected_coordinate_increments[1], 2)),
+        "difference_abs": difference_abs,
+        "difference_relative": difference_relative,
         "all_coords": all_coords_dict
         }
     
-    # return sum_cor, sum_correct_angles
     return data_out
 
 
@@ -406,7 +421,11 @@ def get_result1(data: dict[str, list[dict[str, int | float]] | dict[str, int | f
     return data_out
 
 
-def get_correct_angles2(measured_angles: list[dict[str, int | float]], bearingAngle: dict[str, int]) -> dict[str, list | dict]:    # list[dict]
+def get_result(data: dict[str, list[dict[str, int | float]] | dict[str, int | float]]) -> dict[str, list | dict]:    # 
+    
+    measured_angles: list[dict[str, int | float]] = data.get('aPoints')
+    bearingAngle: dict[str, int] = data.get('bearingAngle')
+    initial_coords: list[dict[str, float]] = data.get('coords')         # Должно находиться 2 координаты всего лишь, начальная и конечная. С первой строки и последней в вебе должны собираться эти точки. Когда будут просчитываться все коориднаты, программа должна посчиатть ещё сама и последнюю координату и сравнить её с той, которую передали. 
     
     list_of_angles = [(d.get('Deg'), d.get('Min'), d.get('Sec')) for d in measured_angles]  # d/m/s
     list_of_decimal_angles = [get_decimal_angle(a) for a in list_of_angles]
@@ -416,7 +435,6 @@ def get_correct_angles2(measured_angles: list[dict[str, int | float]], bearingAn
     difference = calc_difference_ang(sum_of_angles, theoretical_sum_of_angles)  # Разница между теорией и пратикой
     amendments = calc_amendments(difference, len(list_of_angles)) # Поправка в каждый угол поделённая поровну между всеми углами.
     permissible_difference = calc_permissible_discrepancy(len(list_of_angles))  # Допустимая невязка
-    
     correct_angles = [calc_correct_angle(angle, amendments) for angle in list_of_decimal_angles]    # decimal
     
     bearingAngle_dms = get_decimal_angle((bearingAngle.get("Deg"), bearingAngle.get("Min"), bearingAngle.get("Sec")))   # type: ignore decimal
@@ -432,12 +450,29 @@ def get_correct_angles2(measured_angles: list[dict[str, int | float]], bearingAn
     list_dist = [d.get('HorDist') for d in measured_angles[:-1]]
     perimeter = calc_sum_of_distance(list_dist)
     
-    list_coordinate_increments = calc_coordinate_increments(list_dist, bearingAngles)
+    list_coordinate_increments = calc_coordinate_increments(list_dist, bearingAngles)   # Приращения координат
     list_dict_coordinate_increments = [{"incX": X, "incY": Y} for X, Y in list_coordinate_increments]
     
+    list_initial_coords = [(d.get('X'), d.get('Y')) for d in initial_coords]    # Начальные переданные координаты
     
+    # Следующие переменные лежат в кортеже (X, Y)
+    # !!!!!!! Т.к. я начал уже округлять где-то до этого вычисляемые значения, то и тут везде я тоже округляю, что б видеть и понимать нормально, что получается в итоге
+    # (Я наверное, так сделал, что б сразу эти занчения передавать на фронт, хотя хз)
+    # возможно придётся переделывать всё без округлений и только для вывода на отображение округялть в отдельных функциях....
+    sum_theoretical_coordinate_increments = (round(list_initial_coords[1][0] - list_initial_coords[0][0], 3), 
+                                             round(list_initial_coords[1][1] - list_initial_coords[0][1], 3))   # Конечная координата - начальная координата
+    sum_calculated_coordinate_increments = (round(sum([d[0] for d in list_coordinate_increments]), 3), 
+                                            round(sum([d[1] for d in list_coordinate_increments]), 3))          # Просто просуммировал вычисленыне приращения
+    difference_increments = (round(sum_theoretical_coordinate_increments[0] - sum_calculated_coordinate_increments[0], 3), 
+                             round(sum_theoretical_coordinate_increments[1] - sum_calculated_coordinate_increments[1], 3))  # Теория - практика, что б в следующих вычислениях не пришлось брать невязку с обратным знаком...
+    difference_abs = math.hypot(difference_increments[0], difference_increments[1]) # fабс
+    difference_relative = (difference_abs / perimeter, 1 / (difference_abs / perimeter)) # fотн Сразу перевёл в удобный вариант масштаба, там всё зависит от разряда теодолитного хода, вот относительно разряда не должно превышать это число. Типа если это условие будет выполняться, то можно приступать к вычислению исправленных приращений координат. Возможно в будущем надо будет придумать эту проверку. ❓ Если число получается больше 0.0005 (это первый разряд 1:2000), например, 0.00019, то значит это хорошо
     
-    calc_coordinate_increment_correct(list_coordinate_increments, list_dist, difference_inc, perimeter)
+    coordinate_increment_correct = calc_coordinate_increment_correct(list_coordinate_increments, list_dist, difference_increments, perimeter)   # Исправленные приращения координат
+    list_dict_coordinate_increment_correct = [{"incXcor": X, "incYcor": Y} for X, Y in coordinate_increment_correct]
+    
+    all_coords = calc_all_coordinates(list_initial_coords, coordinate_increment_correct)
+    all_coords_dict = [{"X": X, "Y": Y} for X, Y in all_coords]
     
     data_out = {
         "angles": correct_angles,
@@ -447,116 +482,14 @@ def get_correct_angles2(measured_angles: list[dict[str, int | float]], bearingAn
         "difference": create_dict_out_dms(get_dms_angle(difference)), 
         "permissible_difference": create_dict_out_dms(get_dms_angle(permissible_difference)), 
         "sum_correct_angles": create_dict_out_dms(get_dms_angle(sum_cor)),
+        "perimetr": perimeter,
         "coordinate_increments": list_dict_coordinate_increments,
-        "perimetr": perimeter
+        "coordinate_increment_correct": list_dict_coordinate_increment_correct,
+        "all_coords": all_coords_dict
         }
     
     # return sum_cor, sum_correct_angles
     return data_out
-
-
-def get_correct_angles(measured_angles: list[dict[str, int | float]], bearingAngle: dict[str, int]) -> dict[str, list | dict]:    # list[dict]
-    ''' Вернуть массив словариков с исправленными углами. Это уже на фронт прокинуть можно
-    На вход принимается массив словариков (в словарике значения, которые пользователь прописал: характеристики угла и расстояние)
-    Формирую массив кортежей, где каждый кортеж, это собранные характеристики каждого угла ✔️
-    Формирую список из углов в десятичной величине ✔️
-    Прохожусь по нему формулами, получаю сумму измеренных углов, теоретическую сумму, невязку и поправку ✔️
-    Делаю копию масива углов в десятичной величине, в этой копии я внесу поправку в каждый угол ✔️
-    Потом пройдусь по каждому элементу массива, сформирую из каждого элемента угол в виде d/m/s и сформирую массив словариков, что б вернуть на фронт ✔️
-    Верну словарь JSON в котором есть ключи: углы, сумма измеренных углов, теоретическая сумма углов, невязка, теоретическая невязка, сумма исправленных углов'''
-    
-    # Сюда надо передавать полностью большой словарик, который передаётся с фронта. Что б не протерять дирекционные углы и исходные координаты.
-    
-    list_of_angles = [(d.get('Deg'), d.get('Min'), d.get('Sec')) for d in measured_angles]  # d/m/s
-    # print(list_of_angles)
-    list_of_decimal_angles = [get_decimal_angle(a) for a in list_of_angles]
-    sum_of_angles = calc_sum_of_measured_angles(list_of_angles) # type: ignore
-    # sum_of_angles_dms = get_dms_angle(sum_of_angles)
-    theoretical_sum_of_angles = calc_sum_of_theoretical_angles(len(list_of_angles))
-    difference = calc_difference_ang(sum_of_angles, theoretical_sum_of_angles)  # Разница между теорией и пратикой
-    amendments = calc_amendments(difference, len(list_of_angles)) # Поправка в каждый угол поделённая поровну между всеми углами.
-    permissible_difference = calc_permissible_discrepancy(len(list_of_angles))  # Допустимая невязка
-    correct_angles = [calc_correct_angle(angle, amendments) for angle in list_of_decimal_angles]    # decimal
-    
-    # После получения исправленных углов decimal надо просчитать дирекционные углы сразу. Потом проделать такую же процедуру, как с исправленными, чтобы передавать на фронт
-    bearingAngle_dms = get_decimal_angle((bearingAngle.get("Deg"), bearingAngle.get("Min"), bearingAngle.get("Sec")))   # type: ignore d/m/s
-    bearingAngles = get_all_bearing_angles(bearingAngle_dms, correct_angles, 'right')
-    
-    sum_cor = calc_sum_of_corrected_angles(correct_angles, theoretical_sum_of_angles)   # Сумма исправленных углов. Если оне не сходится с теорией меньше чем на 5", то для вывода инфы передастся теория
-    
-    correct_angles = [get_dms_angle(angle) for angle in correct_angles] # d/m/s
-    sum_correct_angles = calc_sum_of_measured_angles(correct_angles)    # получается вот так...(2159, 59, 60) Возможно надо будет обработку этого дела внутрь функции какой-нибудь запихнуть, что б такого не было. До этого зачем-то к int приводил, поэтому терял десятичную часть, которая была важна, т.к. сумма всех углов, почему-то, получается с таким округлением -_- 2159.9999999999995
-    correct_angles = [{"CorDeg": a[0], "CorMin": a[1], "CorSec": a[2]} for a in correct_angles] # [{d/m/s}, ...]
-    list_dist = [d.get('HorDist') for d in measured_angles[:-1]]
-    perimeter = calc_sum_of_distance(list_dist)
-    
-    # data_out = {"angles": correct_angles, "sum_measured_angles": sum_of_angles, "theoretical_sum_of_angles": theoretical_sum_of_angles, "difference": difference, "permissible_difference": permissible_difference, "sum_correct_angles": sum_correct_angles}
-    
-    data_out = {
-        "angles": correct_angles, 
-        "bearing_angles": bearingAngles,
-        "sum_measured_angles": create_dict_out_dms(get_dms_angle(sum_of_angles)), 
-        "theoretical_sum_of_angles": create_dict_out_dms(get_dms_angle(theoretical_sum_of_angles)), 
-        "difference": create_dict_out_dms(get_dms_angle(difference)), 
-        "permissible_difference": create_dict_out_dms(get_dms_angle(permissible_difference)), 
-        # "sum_correct_angles": create_dict_out_dms(get_dms_angle(sum_correct_angles)),
-        "sum_correct_angles": create_dict_out_dms(get_dms_angle(sum_cor)),
-        "perimetr": perimeter
-        }
-    
-    # return perimeter
-    return data_out
-
-
-def get_correct_angles1(measured_angles: list[dict[str, int | float]], bearingAngle: dict[str, int]) -> dict[str, list | dict]:    # list[dict]
-    '''Просчитывать корректные углы, если по теодолитному ходу измеряли левые углы по ходу движения....'''
-    
-    list_of_angles = [(d.get('Deg'), d.get('Min'), d.get('Sec')) for d in measured_angles]  # d/m/s
-    list_of_decimal_angles = [get_decimal_angle(a) for a in list_of_angles]
-    sum_of_angles = calc_sum_of_measured_angles(list_of_angles) # type: ignore
-    # sum_of_angles_dms = get_dms_angle(sum_of_angles)
-    theoretical_sum_of_angles = calc_sum_of_theoretical_angles(len(list_of_angles), 'left')
-    difference = calc_difference_ang(sum_of_angles, theoretical_sum_of_angles)  # Разница между теорией и пратикой
-    amendments = calc_amendments(difference, len(list_of_angles)) # Поправка в каждый угол поделённая поровну между всеми углами.
-    permissible_difference = calc_permissible_discrepancy(len(list_of_angles))  # Допустимая невязка
-    correct_angles = [calc_correct_angle(angle, amendments) for angle in list_of_decimal_angles]    # decimal
-    
-    bearingAngle_dms = get_decimal_angle((bearingAngle.get("Deg"), bearingAngle.get("Min"), bearingAngle.get("Sec")))   # type: ignore d/m/s
-    bearingAngles = get_all_bearing_angles(bearingAngle_dms, correct_angles, 'left')
-    
-    sum_cor = calc_sum_of_corrected_angles(correct_angles, theoretical_sum_of_angles)   # Сумма исправленных углов. Если оне не сходится с теорией меньше чем на 5", то для вывода инфы передастся теория
-    
-    correct_angles = [get_dms_angle(angle) for angle in correct_angles] # d/m/s
-    correct_angles = [{"CorDeg": a[0], "CorMin": a[1], "CorSec": a[2]} for a in correct_angles] # [{d/m/s}, ...]
-    list_dist = [d.get('HorDist') for d in measured_angles[:-1]]
-    perimeter = calc_sum_of_distance(list_dist)
-    
-    # data_out = {"angles": correct_angles, "sum_measured_angles": sum_of_angles, "theoretical_sum_of_angles": theoretical_sum_of_angles, "difference": difference, "permissible_difference": permissible_difference, "sum_correct_angles": sum_correct_angles}
-    
-    data_out = {
-        "angles": correct_angles,
-        "bearing_angles": bearingAngles,    # Я ПЕРЕДАЮ УГЛЫ В ВИДЕ D/M/S ЗАВТРА БЫ ПЕРЕДЕЛАТЬ В НОРМАЛЬНЫЙ СПИСОК ДЛЯ ПЕРЕДАЧИ В НОРМАЛЬНЫЙ ВИД НА ФРОНТ
-        "sum_measured_angles": create_dict_out_dms(get_dms_angle(sum_of_angles)), 
-        "theoretical_sum_of_angles": create_dict_out_dms(get_dms_angle(theoretical_sum_of_angles)), 
-        "difference": create_dict_out_dms(get_dms_angle(difference)), 
-        "permissible_difference": create_dict_out_dms(get_dms_angle(permissible_difference)), 
-        "sum_correct_angles": create_dict_out_dms(get_dms_angle(sum_cor)),
-        "perimetr": perimeter
-        }
-    
-    # return sum_cor, sum_correct_angles
-    return data_out
-
-
-
-
-# def send_test_data():
-#     '''Отослать тестовые данные (Измеренные углы + расстояния)'''
-    
-#     with open("DataInput.json", "r", encoding="utf-8") as f:
-#         data_inp = json.loads(f.read())
-
-#     return(data_inp)
 
 
 def send_test_data(path: str):

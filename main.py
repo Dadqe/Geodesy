@@ -30,14 +30,14 @@ def get_adj_test(id: int):
     '''
     
     if id == 1:
-        # Данные с практики первого курса
-        return send_test_data("Data/DataInput1.json")
+        # Данные с практики первого курса Data\Input\DataInput1.json
+        return send_test_data("Data/Input/DataInput1.json")
     elif id == 2:
         # Данные от Вани из первой таблицы.
-        return send_test_data("Data/DataInput2.json")
+        return send_test_data("Data/Input/DataInput2.json")
     elif id == 3:
         # Данные от Вани из первой таблицы (со всеми нужными данными для вычисления (начальный дир. угол + начальные и конечные координаты)).
-        return send_test_data("Data/DataInput3.json")
+        return send_test_data("Data/Input/DataInput3.json")
     else:
         return False
 
