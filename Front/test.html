@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <div>top</div>
+    <!-- <div>top</div> -->
     <div class="main_container">
         <button onclick="CreateTable()">Сколько сделать инпутов</button>
         <button onclick="MoreRow()">Добавить ещё</button>
@@ -21,6 +21,28 @@
             <option value="3">Тестовые данные 3</option>
         </select>
         <button class="green" onclick="TestData()">Загрузить тестовые данные</button>
+        <!-- Переключатель 1-->
+        <span style="border:1px solid gray;border-radius: 4px; padding: 7px;">
+            <label>Сторона измерения углов: </label>
+            <label class="switch">
+                <input id="switcher_side_of_angles" type="checkbox"
+                    onchange='ToggleSwitcher(this.checked, "label_for_side_of_angles")'>
+                <span class="slider round"></span>
+            </label>
+            <label id="label_for_side_of_angles">left</label>
+        </span>
+        <!-- Переключатель -->
+        <!-- Переключатель 2-->
+        <span style="border:1px solid gray;border-radius: 4px; padding: 7px;">
+            <label>Направление хода: </label>
+            <label class="switch">
+                <input id="switcher_direction_of_circling" type="checkbox"
+                    onchange='ToggleSwitcher(this.checked, "label_for_direction_of_circling")'>
+                <span class="slider round"></span>
+            </label>
+            <label id="label_for_direction_of_circling">left</label>
+        </span>
+        <!-- Переключатель -->
         <div id="container" class="table_container">
             <div id="header_container" class="header_container">
                 <table id="table_container">
@@ -88,7 +110,7 @@
                     </tr> -->
                     </tbody>
                 </table>
-                <div id="bearing_angle">
+                <div id="bearing_angle" style="margin-top: 10px;">
                     <table>
                         <thead>
                             <tr>
