@@ -428,6 +428,14 @@ function submit() {
     coords.push(ends);
     console.log(coords);
 
+    let sSide=document.getElementById("switcher_side_of_angles");
+    let side_of_angles=sSide.checked ? "right" : "left";
+    console.log(side_of_angles);
+
+    let sDirection=document.getElementById("switcher_direction_of_circling");
+    let direction_of_circling=sDirection.checked ? "right" : "left"
+    console.log(direction_of_circling);
+
     let loader = document.getElementById("loader");
     loader.style.display = "flex";
 
@@ -439,7 +447,9 @@ function submit() {
         body: JSON.stringify({
             aPoints,
             bearingAngle,
-            coords
+            coords,
+            side_of_angles,
+            direction_of_circling
         })
 
     })
@@ -669,4 +679,18 @@ function ClearData() {
     document.getElementById("end_x").value = 0;
     document.getElementById("end_y").value = 0;
     document.getElementById("perimetr").value = 0;
+}
+
+/*переключатель*/
+function ToggleSwitcher(val, sLabel) {
+    let label = document.getElementById(sLabel);
+    if (val) {
+        console.log("right");
+        label.innerHTML = "right";
+    }
+    else {
+        console.log("left");
+        label.innerHTML = "left";
+    }
+
 }
