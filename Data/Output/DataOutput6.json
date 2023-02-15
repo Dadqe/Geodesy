@@ -1,0 +1,205 @@
+{
+    "angles": [
+        {
+            "CorDeg": 23,
+            "CorMin": 49,
+            "CorSec": 18
+        },
+        {
+            "CorDeg": 238,
+            "CorMin": 29,
+            "CorSec": 18
+        },
+        {
+            "CorDeg": 204,
+            "CorMin": 27,
+            "CorSec": 3
+        },
+        {
+            "CorDeg": 67,
+            "CorMin": 59,
+            "CorSec": 56
+        },
+        {
+            "CorDeg": 180,
+            "CorMin": 31,
+            "CorSec": 51
+        },
+        {
+            "CorDeg": 82,
+            "CorMin": 14,
+            "CorSec": 38
+        },
+        {
+            "CorDeg": 102,
+            "CorMin": 27,
+            "CorSec": 54
+        }
+    ],
+    "bearing_angles": [
+        {
+            "Deg": 104,
+            "Min": 23,
+            "Sec": 46
+        },
+        {
+            "Deg": 162,
+            "Min": 53,
+            "Sec": 5
+        },
+        {
+            "Deg": 187,
+            "Min": 20,
+            "Sec": 8
+        },
+        {
+            "Deg": 75,
+            "Min": 20,
+            "Sec": 4
+        },
+        {
+            "Deg": 75,
+            "Min": 51,
+            "Sec": 55
+        },
+        {
+            "Deg": 338,
+            "Min": 6,
+            "Sec": 34
+        },
+        {
+            "Deg": 260,
+            "Min": 34,
+            "Sec": 28
+        }
+    ],
+    "sum_measured_angles": {
+        "Deg": 899,
+        "Min": 59,
+        "Sec": 58
+    },
+    "theoretical_sum_of_angles": {
+        "Deg": 900,
+        "Min": 0,
+        "Sec": 0
+    },
+    "difference": {
+        "Deg": 0,
+        "Min": 0,
+        "Sec": 2
+    },
+    "permissible_difference": {
+        "Deg": 0,
+        "Min": 2,
+        "Sec": 39
+    },
+    "sum_correct_angles": {
+        "Deg": 900,
+        "Min": 0,
+        "Sec": 0
+    },
+    "perimetr": 260.289,
+    "coordinate_increments": [
+        {
+            "incX": -7.244,
+            "incY": 28.223
+        },
+        {
+            "incX": -28.846,
+            "incY": 8.883
+        },
+        {
+            "incX": -30.309,
+            "incY": -3.902
+        },
+        {
+            "incX": 10.87,
+            "incY": 41.534
+        },
+        {
+            "incX": 15.678,
+            "incY": 62.258
+        },
+        {
+            "incX": 58.712,
+            "incY": -23.591
+        }
+    ],
+    "coordinate_increment_correct": [
+        {
+            "incXcor": -7.249,
+            "incYcor": 28.219
+        },
+        {
+            "incXcor": -28.851,
+            "incYcor": 8.879
+        },
+        {
+            "incXcor": -30.314,
+            "incYcor": -3.906
+        },
+        {
+            "incXcor": 10.863,
+            "incYcor": 41.528
+        },
+        {
+            "incXcor": 15.668,
+            "incYcor": 62.249
+        },
+        {
+            "incXcor": 58.702,
+            "incYcor": -23.6
+        }
+    ],
+    "sum_theoretical_coordinate_increments": [
+        18.82,
+        113.37
+    ],
+    "sum_calculated_coordinate_increments": [
+        18.86,
+        113.41
+    ],
+    "difference_increments": [
+        -0.04,
+        -0.04
+    ],
+    "sum_corrected_coordinate_increments": [
+        18.82,
+        113.37
+    ],
+    "difference_abs": 0.05356819469589083,
+    "difference_relative": [
+        0.0002,
+        4859
+    ],
+    "all_coords": [
+        {
+            "X": 83253.77,
+            "Y": 27962.67
+        },
+        {
+            "X": 83246.521,
+            "Y": 27990.889
+        },
+        {
+            "X": 83217.67,
+            "Y": 27999.768
+        },
+        {
+            "X": 83187.357,
+            "Y": 27995.862
+        },
+        {
+            "X": 83198.22,
+            "Y": 28037.39
+        },
+        {
+            "X": 83213.888,
+            "Y": 28099.64
+        },
+        {
+            "X": 83272.59,
+            "Y": 28076.04
+        }
+    ]
+}

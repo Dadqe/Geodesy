@@ -1,0 +1,239 @@
+{
+    "angles": [
+        {
+            "CorDeg": 125,
+            "CorMin": 38,
+            "CorSec": 37
+        },
+        {
+            "CorDeg": 145,
+            "CorMin": 15,
+            "CorSec": 37
+        },
+        {
+            "CorDeg": 111,
+            "CorMin": 38,
+            "CorSec": 7
+        },
+        {
+            "CorDeg": 137,
+            "CorMin": 16,
+            "CorSec": 13
+        },
+        {
+            "CorDeg": 192,
+            "CorMin": 42,
+            "CorSec": 43
+        },
+        {
+            "CorDeg": 84,
+            "CorMin": 7,
+            "CorSec": 19
+        },
+        {
+            "CorDeg": 190,
+            "CorMin": 7,
+            "CorSec": 55
+        },
+        {
+            "CorDeg": 93,
+            "CorMin": 13,
+            "CorSec": 31
+        }
+    ],
+    "bearing_angles": [
+        {
+            "Deg": 81,
+            "Min": 34,
+            "Sec": 5
+        },
+        {
+            "Deg": 116,
+            "Min": 18,
+            "Sec": 29
+        },
+        {
+            "Deg": 184,
+            "Min": 40,
+            "Sec": 22
+        },
+        {
+            "Deg": 227,
+            "Min": 24,
+            "Sec": 9
+        },
+        {
+            "Deg": 214,
+            "Min": 41,
+            "Sec": 26
+        },
+        {
+            "Deg": 310,
+            "Min": 34,
+            "Sec": 8
+        },
+        {
+            "Deg": 300,
+            "Min": 26,
+            "Sec": 13
+        },
+        {
+            "Deg": 27,
+            "Min": 12,
+            "Sec": 42
+        }
+    ],
+    "sum_measured_angles": {
+        "Deg": 1080,
+        "Min": 2,
+        "Sec": 18
+    },
+    "theoretical_sum_of_angles": {
+        "Deg": 1080,
+        "Min": 0,
+        "Sec": 0
+    },
+    "difference": {
+        "Deg": 0,
+        "Min": -2,
+        "Sec": -18
+    },
+    "permissible_difference": {
+        "Deg": 0,
+        "Min": 2,
+        "Sec": 50
+    },
+    "sum_correct_angles": {
+        "Deg": 1080,
+        "Min": 0,
+        "Sec": 0
+    },
+    "perimetr": 2902.13,
+    "coordinate_increments": [
+        {
+            "incX": 67.982,
+            "incY": 458.609
+        },
+        {
+            "incX": -170.776,
+            "incY": 345.42
+        },
+        {
+            "incX": -301.435,
+            "incY": -24.638
+        },
+        {
+            "incX": -192.257,
+            "incY": -209.097
+        },
+        {
+            "incX": -228.253,
+            "incY": -157.995
+        },
+        {
+            "incX": 253.432,
+            "incY": -296.011
+        },
+        {
+            "incX": 184.925,
+            "incY": -314.733
+        },
+        {
+            "incX": 386.295,
+            "incY": 198.628
+        }
+    ],
+    "coordinate_increment_correct": [
+        {
+            "incXcor": 67.996,
+            "incYcor": 458.579
+        },
+        {
+            "incXcor": -170.765,
+            "incYcor": 345.395
+        },
+        {
+            "incXcor": -301.426,
+            "incYcor": -24.657
+        },
+        {
+            "incXcor": -192.249,
+            "incYcor": -209.115
+        },
+        {
+            "incXcor": -228.245,
+            "incYcor": -158.012
+        },
+        {
+            "incXcor": 253.444,
+            "incYcor": -296.036
+        },
+        {
+            "incXcor": 184.936,
+            "incYcor": -314.756
+        },
+        {
+            "incXcor": 386.308,
+            "incYcor": 198.601
+        }
+    ],
+    "sum_theoretical_coordinate_increments": [
+        0,
+        0
+    ],
+    "sum_calculated_coordinate_increments": [
+        -0.09,
+        0.18
+    ],
+    "difference_increments": [
+        0.09,
+        -0.18
+    ],
+    "sum_corrected_coordinate_increments": [
+        -0.0,
+        0.0
+    ],
+    "difference_abs": 0.2025316856379954,
+    "difference_relative": [
+        0.0001,
+        14329
+    ],
+    "all_coords": [
+        {
+            "X": 19416.22,
+            "Y": 12604.91
+        },
+        {
+            "X": 19484.216,
+            "Y": 13063.489
+        },
+        {
+            "X": 19313.451,
+            "Y": 13408.885
+        },
+        {
+            "X": 19012.025,
+            "Y": 13384.228
+        },
+        {
+            "X": 18819.776,
+            "Y": 13175.113
+        },
+        {
+            "X": 18591.532,
+            "Y": 13017.101
+        },
+        {
+            "X": 18844.976,
+            "Y": 12721.065
+        },
+        {
+            "X": 19029.912,
+            "Y": 12406.309
+        },
+        {
+            "X": 19416.22,
+            "Y": 12604.91
+        }
+    ]
+}

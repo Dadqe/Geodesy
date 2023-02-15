@@ -4,11 +4,11 @@ import json
 
 # Добавляю в поиск путей корневую директорию всех файлов
 sys.path.insert(1, os.getcwd())
-from calc import get_decimal_angle, calc_sum_of_measured_angles, get_dms_angle, calc_sum_of_theoretical_angles, calc_difference_ang, calc_permissible_discrepancy, send_test_data, get_result, get_result1, get_result2
+from calc import get_decimal_angle, calc_sum_of_measured_angles, get_dms_angle, calc_sum_of_theoretical_angles, calc_difference_ang, calc_permissible_discrepancy, send_test_data, get_result, get_result1, get_result2, get_result3
 
 # Прочитывать для исходных данных, что б можно было использовать в следующих тестах. Тут данные с практики 1го курса
-with open("Data/Input/DataInput1.json", "r", encoding="utf-8") as f:
-    TESTDATA1 = json.loads(f.read())
+# with open("Data/Input/DataInput1.json", "r", encoding="utf-8") as f:
+#     TESTDATA1 = json.loads(f.read())
 
 # Исходные данные из Ваниной таблицы первой. ЕСТЬ БЕДА В ТОМ, что у него расстояния записаны с кучей знаков после запятой -_- так не должно быть, по идее, мы должны округлять по 3 знака, до см только.
 
@@ -21,8 +21,20 @@ with open("Data/Input/DataInput1.json", "r", encoding="utf-8") as f:
 #     TESTDATA2_1 = json.loads(f.read())
     
 # Тестовые данные от Вани с добавлением дир.угла, начальной и конечной координаты
-with open("Data/Input/DataInput3 copy.json", "r", encoding="utf-8") as f:
-    TESTDATA3 = json.loads(f.read())
+# with open("Data/Input/DataInput3.json", "r", encoding="utf-8") as f:
+#     TESTDATA3 = json.loads(f.read())
+
+# Тестовые данные от Жени WORD с добавлением направления движения по часовой стрелке и стороной измеренных углов относительно хода
+# with open("Data/Input/DataInput4.json", "r", encoding="utf-8") as f:
+#     TESTDATA4 = json.loads(f.read())
+
+# Тестовые данные от Вани с добавлением направления движения по часовой стрелке, стороны измеренных углов относительно хода и информации о замкнутости полигона (пока не знаю, насколько необходимо, возможно пока лишнее, надо научиться решать хорошо замкнутые полигоны)
+# with open("Data/Input/DataInput5.json", "r", encoding="utf-8") as f:
+#     TESTDATA5 = json.loads(f.read())
+
+# Тестовые данные МОИ с 4 или 5 курса
+with open("Data/Input/DataInput6.json", "r", encoding="utf-8") as f:
+    TESTDATA6 = json.loads(f.read())
 
 
 # ang1 = (180, 50, 35)
@@ -97,7 +109,21 @@ with open("Data/Input/DataInput3 copy.json", "r", encoding="utf-8") as f:
 #     f.write(json.dumps(TT_O_leftsides, ensure_ascii=False, indent=4))
 
 
-TT_O = get_result2(TESTDATA3)
+# TT_O = get_result2(TESTDATA3)
 
 # with open("Data/Output/DataOutput33 copy2.json", "w", encoding="utf-8") as f:
 #     f.write(json.dumps(TT_O, ensure_ascii=False, indent=4))
+
+# TT_O = get_result2(TESTDATA4)
+# with open("Data/Output/DataOutput44.json", "w", encoding="utf-8") as f:
+#     f.write(json.dumps(TT_O, ensure_ascii=False, indent=4))
+
+
+# 15.02.23
+# TT_O = get_result3(TESTDATA5)
+# with open("Data/Output/DataOutput5.json", "w", encoding="utf-8") as f:
+#     f.write(json.dumps(TT_O, ensure_ascii=False, indent=4))
+
+TT_O = get_result3(TESTDATA6)
+with open("Data/Output/DataOutput6.json", "w", encoding="utf-8") as f:
+    f.write(json.dumps(TT_O, ensure_ascii=False, indent=4))

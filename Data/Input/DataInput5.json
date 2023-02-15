@@ -82,5 +82,7 @@
             "Y": 28140.405 
         }
     ],
-    "direction_of_circling": "right"
+    "direction_of_circling": "right",
+    "side_of_angles": "left",
+    "is_closed": true
 }

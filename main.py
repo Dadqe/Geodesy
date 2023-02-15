@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query
 from schemas import Point, Points, Data
-from calc import get_correct_angles, send_test_data, get_result1
+from calc import send_test_data, get_result1
 import uvicorn
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -26,7 +26,7 @@ def home():
 @app.get('/TestData/{id}')
 def get_adj_test(id: int):
     '''
-    Отослать тестовые данные вторые из Ваниной таблицы
+    Отослать тестовые данные
     '''
     
     if id == 1:
@@ -38,6 +38,9 @@ def get_adj_test(id: int):
     elif id == 3:
         # Данные от Вани из первой таблицы (со всеми нужными данными для вычисления (начальный дир. угол + начальные и конечные координаты)).
         return send_test_data("Data/Input/DataInput3.json")
+    elif id == 4:
+        # Данные от Жени.
+        return send_test_data("Data/Input/DataInput4.json")
     else:
         return False
 
