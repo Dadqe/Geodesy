@@ -127,3 +127,18 @@ with open("Data/Input/DataInput6.json", "r", encoding="utf-8") as f:
 TT_O = get_result3(TESTDATA6)
 # with open("Data/Output/DataOutput6.json", "w", encoding="utf-8") as f:
 #     f.write(json.dumps(TT_O, ensure_ascii=False, indent=4))
+
+def main(number: int, name: str='Data'):
+    # read data
+    with open(f"Data/Input/{name}Input{number}.json", "r", encoding="utf-8") as f:
+        TESTDATA = json.loads(f.read())
+    
+    TESTDATA_out = get_result3(TESTDATA)
+    
+    with open(f"Data/Output/{name}Output{number}.json", "w", encoding="utf-8") as f:
+        f.write(json.dumps(TESTDATA_out, ensure_ascii=False, indent=4))
+    
+
+
+if __name__ == "__main__":
+    main(5)
