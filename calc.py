@@ -279,11 +279,11 @@ def get_result3(data: dict[str, list[dict[str, int | float]] | dict[str, int | f
     
     theoretical_sum_of_angles = calc_sum_of_theoretical_angles(len(list_of_angles), help_side) # type: ignore Тут жалуется, потому как переменная help_side объявляется внутри условий и по идее я должен буду достучаться до неё, но интерпретатор думает, что этой переменной ещё нет. Но я проверил, всё нормально если после этих строк вызвать принт этой переменной, значит всё распечатается норм.
     
-    difference = calc_difference_ang1(sum_of_angles, theoretical_sum_of_angles)  # Разница между теорией и пратикой. Потом при формировании выходных данных там в секунды пересчитывается само, что б можно было пропарсит ьсловарик и получить нормального вида данные, но если нули в старших разрядах угла, то их не стоит писать, но это ньюансы, наверное
-    
+    difference = calc_difference_ang1(sum_of_angles, theoretical_sum_of_angles)  # Разница между теорией и пратикой. Потом при формировании выходных данных там в секунды пересчитывается само, что б можно было пропарсить словарик и получить нормального вида данные, но если нули в старших разрядах угла, то их не стоит писать, но это ньюансы, наверное
     amendments = calc_amendments(difference, len(list_of_angles)) # Поправка в каждый угол поделённая поровну между всеми углами.
     
     permissible_difference = calc_permissible_discrepancy1(len(list_of_angles))  # Допустимая невязка. Потом при формировании выходных данных там в секунды пересчитывается само
+    assert difference < permissible_difference, "Невязка горизонтальных углов больше, чем допустимая невязка, надо бы что-то с этим сделать (возможно неправильно указана точность прибора, которым делали измерения)"
     
     correct_angles = [calc_correct_angle1(angle, amendments) for angle in list_of_decimal_angles]    # decimal. Без округления
     

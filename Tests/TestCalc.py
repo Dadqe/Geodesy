@@ -125,5 +125,5 @@ with open("Data/Input/DataInput6.json", "r", encoding="utf-8") as f:
 #     f.write(json.dumps(TT_O, ensure_ascii=False, indent=4))
 
 TT_O = get_result3(TESTDATA6)
-with open("Data/Output/DataOutput6.json", "w", encoding="utf-8") as f:
-    f.write(json.dumps(TT_O, ensure_ascii=False, indent=4))
+# with open("Data/Output/DataOutput6.json", "w", encoding="utf-8") as f:
+#     f.write(json.dumps(TT_O, ensure_ascii=False, indent=4))
